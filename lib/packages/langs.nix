@@ -54,6 +54,9 @@ with pkgs;
   tailwindcss-language-server
   tinymist
   typescript-language-server
+  typst
+  typstyle
   vscode-langservers-extracted
+  websocat
   yaml-language-server
 ]
