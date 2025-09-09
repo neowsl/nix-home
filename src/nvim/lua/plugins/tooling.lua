@@ -17,7 +17,6 @@ return {
 				javascriptreact = { "prettierd" },
 				json = { "prettierd" },
 				jsonc = { "prettierd" },
-				tex = { "tex" },
 				lua = { "stylua" },
 				mdx = { "prettierd" },
 				nix = { "nixfmt" },
@@ -38,11 +37,6 @@ return {
 			formatters = {
 				gdformat = {
 					command = "gdformat",
-					args = "$FILENAME",
-					stdin = false,
-				},
-				tex = {
-					command = "tex-fmt",
 					args = "$FILENAME",
 					stdin = false,
 				},

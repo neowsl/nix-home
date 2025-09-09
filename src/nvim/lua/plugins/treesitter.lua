@@ -26,7 +26,6 @@ return {
 					"java",
 					"javascript",
 					"json",
-					"latex",
 					"lua",
 					"make",
 					"markdown",

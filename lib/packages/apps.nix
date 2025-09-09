@@ -26,6 +26,7 @@ with pkgs;
     thunarPlugins = [
       file-roller
       xfce.thunar-archive-plugin
+      xfce.thunar-dropbox-plugin
       xfce.tumbler
     ];
   })

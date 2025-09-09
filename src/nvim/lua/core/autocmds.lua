@@ -18,7 +18,6 @@ local lang_maps = {
 	python = { exec = "python %" },
 	rust = { exec = "cargo run" },
 	sh = { exec = "%" },
-	tex = { build = "pdflatex -shell-escape %" },
 	typescript = { exec = "bun %" },
 }
 
