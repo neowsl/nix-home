@@ -13,6 +13,14 @@ return {
 							fg = colours.lavender,
 							bg = colours.none,
 						},
+						FloatTitle = {
+							fg = colours.blue,
+							bg = colours.none,
+						},
+						FloatFooter = {
+							fg = colours.blue,
+							bg = colours.none,
+						},
 					}
 				end,
 			}
