@@ -59,22 +59,30 @@ return {
 		keys = {
 			{
 				"<Leader>tf",
-				require("telescope.builtin").find_files,
+				function()
+					require("telescope.builtin").find_files()
+				end,
 				silent = true,
 			},
 			{
 				"<Leader>tg",
-				require("telescope.builtin").live_grep,
+				function()
+					require("telescope.builtin").live_grep()
+				end,
 				silent = true,
 			},
 			{
 				"<Leader>td",
-				require("telescope.builtin").diagnostics,
+				function()
+					require("telescope.builtin").diagnostics()
+				end,
 				silent = true,
 			},
 			{
 				"<Leader>tt",
-				require("telescope.builtin").treesitter,
+				function()
+					require("telescope.builtin").treesitter()
+				end,
 				silent = true,
 			},
 		},

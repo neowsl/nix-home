@@ -5,8 +5,6 @@
 }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
-
   system.stateVersion = "25.05";
 
   nixpkgs.config.allowUnfree = true;
@@ -16,12 +14,7 @@
   boot = {
     loader = {
       efi.canTouchEfiVariables = true;
-      grub = {
-        efiSupport = true;
-        enable = true;
-        device = "nodev";
-        useOSProber = true;
-      };
+      grub.enable = lib.mkForce false;
     };
   };
 

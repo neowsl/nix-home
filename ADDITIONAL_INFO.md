@@ -1,3 +1,5 @@
+Setting up UEFI Secure Boot via `lanzaboote`: https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md
+
 Detecting Wacom tablet: https://github.com/DIGImend/digimend-kernel-drivers#Configuration
 
 OpenTabletDriver pressure sensitivity: https://opentabletdriver.net/Wiki/FAQ/Linux#artist-mode

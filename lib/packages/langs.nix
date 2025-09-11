@@ -21,7 +21,7 @@ with pkgs;
   gdtoolkit_4
   ghc
   ghcid
-  pkgsUnstable.gleam
+  # pkgsUnstable.gleam
   go
   gopls
   haskell-language-server
