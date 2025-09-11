@@ -6,6 +6,15 @@ return {
 		config = function()
 			require("catppuccin").setup {
 				transparent_background = true,
+				custom_highlights = function(colours)
+					return {
+						NormalFloat = { bg = colours.none },
+						FloatBorder = {
+							fg = colours.lavender,
+							bg = colours.none,
+						},
+					}
+				end,
 			}
 
 			vim.g.catppuccin_flavour = "mocha"
