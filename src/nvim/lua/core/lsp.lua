@@ -7,7 +7,7 @@ local servers = {
 	"gdscript",
 	"gopls",
 	"html",
-	"lexical",
+	-- "lexical",
 	"lua_ls",
 	"nil_ls",
 	-- "ocamllsp",
@@ -16,7 +16,7 @@ local servers = {
 	"tailwindcss",
 	"tinymist",
 	"ts_ls",
-	"verible",
+	-- "verible",
 	"yamlls",
 }
 
