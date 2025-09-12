@@ -91,10 +91,10 @@ in
     shellAliases = {
       home = "vi ~/.config/home-manager";
       ls = "eza --all --long --icons --git";
-      nix-xilinx = "nix run gitlab:doronbehar/nix-xilinx#xilinx-shell";
       vi = "nvim";
-      # vi = "neovide --fork";
       vim = "vi";
+      lg = "lazygit";
+      nix-xilinx = "nix run gitlab:doronbehar/nix-xilinx#xilinx-shell";
       vivado = "nix run gitlab:doronbehar/nix-xilinx#vivado";
     };
     stateVersion = "25.05";
