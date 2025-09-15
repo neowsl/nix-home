@@ -1,12 +1,14 @@
 {
   pkgs,
   pkgsUnstable,
+  hashword,
   zen-browser,
   ...
 }:
 
 let
   packages = import ./lib/packages { inherit pkgs pkgsUnstable; };
+  patrick-hand = pkgs.callPackage ./lib/derivations/patrick-hand.nix { };
   # nix-gaming = import (builtins.fetchTarball "https://github.com/fufexan/nix-gaming/archive/master.tar.gz");
 in
 {
@@ -65,7 +67,11 @@ in
     };
     homeDirectory = "/home/neo";
     keyboard.options = [ "caps:escape" ];
-    packages = packages ++ [ zen-browser.packages.${pkgs.system}.default ];
+    packages = packages ++ [
+      hashword.packages.${pkgs.system}.default
+      zen-browser.packages.${pkgs.system}.default
+      patrick-hand
+    ];
     pointerCursor = {
       gtk.enable = true;
       name = "Bibata-Modern-Classic";

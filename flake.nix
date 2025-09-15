@@ -6,6 +6,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    hashword.url = "github:neowsl/hashword";
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,6 +18,7 @@
       nixpkgs,
       home-manager,
       nixpkgs-unstable,
+      hashword,
       zen-browser,
       ...
     }:
@@ -44,6 +46,7 @@
 
         extraSpecialArgs = {
           pkgsUnstable = pkgsUnstable;
+          hashword = hashword;
           zen-browser = zen-browser;
         };
       };
