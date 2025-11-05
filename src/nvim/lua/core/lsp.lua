@@ -7,6 +7,7 @@ local servers = {
 	"gdscript",
 	"gopls",
 	"html",
+	"jdtls",
 	-- "lexical",
 	"lua_ls",
 	"nil_ls",

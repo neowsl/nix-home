@@ -9,7 +9,6 @@ with pkgs;
   pkgsUnstable.bun
   clang-tools
   cling
-  cmake
   # dune_3
   elixir
   emmet-language-server
@@ -23,12 +22,14 @@ with pkgs;
   ghcid
   # pkgsUnstable.gleam
   go
+  google-java-format
   gopls
   haskell-language-server
   haskellPackages.cabal-gild
   haskellPackages.cabal-install
   isort
   jdk11
+  jdt-language-server
   lexical
   lua
   nil

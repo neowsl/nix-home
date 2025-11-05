@@ -13,6 +13,7 @@ return {
 				haskell = { "ormolu" },
 				heex = { "mix" },
 				html = { "prettierd" },
+				-- java = { "google-java-format" },
 				javascript = { "prettierd" },
 				javascriptreact = { "prettierd" },
 				json = { "prettierd" },
@@ -39,6 +40,9 @@ return {
 					command = "gdformat",
 					args = "$FILENAME",
 					stdin = false,
+				},
+				["google-java-format"] = {
+					prepend_args = { "--aosp" },
 				},
 				verible = {
 					command = "verible-verilog-format",

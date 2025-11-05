@@ -6,7 +6,7 @@ pkgs.stdenvNoCC.mkDerivation {
 
   src = pkgs.fetchurl {
     url = "https://github.com/google/fonts/raw/main/ofl/patrickhand/PatrickHand-Regular.ttf";
-    sha256 = "sha256-1z6h9bpngs8pp2dldc4jk4gy2kmcqmbh0zxzp8jszldndhz3n5qg=";
+    sha256 = "1z6h9bpngs8pp2dldc4jk4gy2kmcqmbh0zxzp8jszldndhz3n5qg";
   };
 
   dontUnpack = true;

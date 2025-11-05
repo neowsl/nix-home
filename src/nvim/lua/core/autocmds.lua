@@ -22,7 +22,13 @@ local lang_maps = {
 }
 
 for lang, data in pairs(lang_maps) do
-	local f, _ = io.open("Makefile", "r")
+	local f, _ = io.open("justfile", "r")
+	if f then
+		data.build = "just build"
+		data.exec = "just exec"
+	end
+
+	f, _ = io.open("Makefile", "r")
 	if f then
 		data.build = "make build"
 		data.exec = "make exec"

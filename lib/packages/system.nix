@@ -6,7 +6,6 @@ with pkgs;
   android-file-transfer
   appimage-run
   fswatch
-  gnumake
   grim
   grimblast
   hunspell

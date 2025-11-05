@@ -31,4 +31,5 @@ with pkgs;
     ];
   })
   yazi
+  zotero
 ]
