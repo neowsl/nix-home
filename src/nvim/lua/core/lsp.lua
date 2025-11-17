@@ -55,21 +55,18 @@ vim.diagnostic.config {
 	virtual_lines = {
 		only_current_line = true,
 	},
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "●",
+			[vim.diagnostic.severity.WARN] = "●",
+			[vim.diagnostic.severity.INFO] = "●",
+			[vim.diagnostic.severity.HINT] = "●",
+		},
+		linehl = {
+			[vim.diagnostic.severity.ERROR] = "ErrorMsg",
+		},
+		numhl = {
+			[vim.diagnostic.severity.WARN] = "WarningMsg",
+		},
+	},
 }
-
-vim.fn.sign_define(
-	"DiagnosticSignError",
-	{ text = "●", texthl = "DiagnosticSignError" }
-)
-vim.fn.sign_define(
-	"DiagnosticSignWarn",
-	{ text = "●", texthl = "DiagnosticSignWarn" }
-)
-vim.fn.sign_define(
-	"DiagnosticSignInfo",
-	{ text = "●", texthl = "DiagnosticSignInfo" }
-)
-vim.fn.sign_define(
-	"DiagnosticSignHint",
-	{ text = "●", texthl = "DiagnosticSignHint" }
-)
