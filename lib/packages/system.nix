@@ -22,5 +22,4 @@ with pkgs;
   slurp
   swww
   way-displays
-  kdePackages.xwaylandvideobridge
 ]

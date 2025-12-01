@@ -9,6 +9,7 @@
 let
   packages = import ./lib/packages { inherit pkgs pkgsUnstable; };
   patrick-hand = pkgs.callPackage ./lib/derivations/patrick-hand.nix { };
+  xwaylandvideobridge = pkgs.callPackage ./lib/derivations/xwaylandvideobridge.nix { };
   # nix-gaming = import (builtins.fetchTarball "https://github.com/fufexan/nix-gaming/archive/master.tar.gz");
 in
 {
@@ -71,6 +72,7 @@ in
       hashword.packages.${pkgs.system}.default
       zen-browser.packages.${pkgs.system}.default
       patrick-hand
+      xwaylandvideobridge
     ];
     pointerCursor = {
       gtk.enable = true;
@@ -103,7 +105,7 @@ in
       nix-xilinx = "nix run gitlab:doronbehar/nix-xilinx#xilinx-shell";
       vivado = "nix run gitlab:doronbehar/nix-xilinx#vivado";
     };
-    stateVersion = "25.05";
+    stateVersion = "25.11";
     username = "neo";
   };
 
@@ -143,12 +145,14 @@ in
     };
     git = {
       enable = true;
-      extraConfig = {
+      settings = {
+        user = {
+          name = "Neal Wang";
+          email = "nealwang.sh@protonmail.com";
+        };
         credential.helper = "store";
         init.defaultBranch = "main";
       };
-      userName = "Neal Wang";
-      userEmail = "nealwang.sh@protonmail.com";
     };
     helix.enable = true;
     home-manager.enable = true;

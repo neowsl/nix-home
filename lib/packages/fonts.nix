@@ -8,6 +8,6 @@ with pkgs;
   lxgw-wenkai
   nerd-fonts.caskaydia-cove
   roboto
-  ubuntu_font_family
+  ubuntu-classic
   victor-mono
 ]

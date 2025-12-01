@@ -2,9 +2,11 @@
 
 with pkgs;
 [
+  art
   audacity
   blender
   brave
+  dl-librescore
   pkgsUnstable.electron-mail
   evince
   foliate

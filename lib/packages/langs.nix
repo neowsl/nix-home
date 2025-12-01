@@ -32,6 +32,7 @@ with pkgs;
   jdt-language-server
   lexical
   lua
+  lua-language-server
   nil
   nixfmt-rfc-style
   nodejs
@@ -50,7 +51,6 @@ with pkgs;
   rustup
   stylua
   stylish-haskell
-  sumneko-lua-language-server
   svelte-language-server
   tailwindcss-language-server
   tinymist
