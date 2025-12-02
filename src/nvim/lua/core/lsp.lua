@@ -6,6 +6,7 @@ local servers = {
 	"emmet_language_server",
 	"gdscript",
 	"gopls",
+	"hls",
 	"html",
 	"jdtls",
 	-- "lexical",

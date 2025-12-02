@@ -3,7 +3,6 @@
 with pkgs;
 [
   arduino-ide
-  beekeeper-studio
   cmake
   gnumake
   godot
@@ -18,5 +17,6 @@ with pkgs;
   showmethekey
   tree-sitter
   uxplay
+  websocat
   wl-clipboard
 ]

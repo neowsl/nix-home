@@ -1,6 +1,7 @@
 {
   pkgs,
   pkgsUnstable,
+  awww,
   hashword,
   zen-browser,
   ...
@@ -9,7 +10,6 @@
 let
   packages = import ./lib/packages { inherit pkgs pkgsUnstable; };
   patrick-hand = pkgs.callPackage ./lib/derivations/patrick-hand.nix { };
-  xwaylandvideobridge = pkgs.callPackage ./lib/derivations/xwaylandvideobridge.nix { };
   # nix-gaming = import (builtins.fetchTarball "https://github.com/fufexan/nix-gaming/archive/master.tar.gz");
 in
 {
@@ -69,10 +69,10 @@ in
     homeDirectory = "/home/neo";
     keyboard.options = [ "caps:escape" ];
     packages = packages ++ [
-      hashword.packages.${pkgs.system}.default
-      zen-browser.packages.${pkgs.system}.default
+      awww.packages.${pkgs.stdenv.hostPlatform.system}.default
+      hashword.packages.${pkgs.stdenv.hostPlatform.system}.default
+      zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
       patrick-hand
-      xwaylandvideobridge
     ];
     pointerCursor = {
       gtk.enable = true;
@@ -161,7 +161,6 @@ in
     kitty = {
       enable = true;
       extraConfig = builtins.readFile ./src/kitty.conf;
-      package = pkgsUnstable.kitty;
     };
     obs-studio.enable = true;
     rofi = {
@@ -177,7 +176,6 @@ in
         show-icons = true;
         sidebar-mode = true;
       };
-      package = pkgs.rofi-wayland;
       theme = ./src/rofi.rasi;
     };
     starship = {
@@ -208,7 +206,7 @@ in
           "custom/nixos" = {
             format = "<span size='x-large'></span> ";
             on-click = ''
-              BG="$(find ~/Pictures/wallpapers -name '*.*' | shuf -n 1)" && swww img "$BG" --transition-type any
+              BG="$(find ~/Pictures/wallpapers -name '*.*' | shuf -n 1)" && awww img "$BG" --transition-type any
             '';
           };
           "hyprland/workspaces" = {
@@ -350,7 +348,7 @@ in
     enable = true;
     type = "fcitx5";
     fcitx5.addons = with pkgs; [
-      fcitx5-chinese-addons
+      qt6Packages.fcitx5-chinese-addons
       fcitx5-gtk
       libpinyin
     ];

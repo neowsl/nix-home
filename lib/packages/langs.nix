@@ -18,15 +18,17 @@ with pkgs;
   gcc14
   gdb
   gdtoolkit_4
-  ghc
-  ghcid
   # pkgsUnstable.gleam
   go
   google-java-format
   gopls
-  haskell-language-server
+  haskell.compiler.ghc9103
   haskellPackages.cabal-gild
   haskellPackages.cabal-install
+  haskellPackages.ghcid
+  haskellPackages.haskell-language-server
+  haskellPackages.hlint
+  haskellPackages.ormolu
   isort
   jdk11
   jdt-language-server
@@ -42,7 +44,6 @@ with pkgs;
   # ocamlPackages.ocamlformat
   # ocamlPackages.utop
   # opam
-  ormolu
   # pkgsUnstable.oxlint
   prettierd
   pkgsUnstable.pyrefly
@@ -58,6 +59,5 @@ with pkgs;
   typst
   typstyle
   vscode-langservers-extracted
-  websocat
   yaml-language-server
 ]

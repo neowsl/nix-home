@@ -20,6 +20,5 @@ with pkgs;
   piper
   polkit_gnome
   slurp
-  swww
   way-displays
 ]

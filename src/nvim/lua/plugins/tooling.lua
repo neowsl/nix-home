@@ -59,6 +59,7 @@ return {
 
 			lint.linters_by_ft = {
 				astro = { "eslint_d" },
+				haskell = { "hlint" },
 				javascript = { "eslint_d" },
 				svelte = { "eslint_d" },
 				typescript = { "eslint_d" },

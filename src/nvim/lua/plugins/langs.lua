@@ -31,10 +31,11 @@ return {
 		ft = "lua",
 		opts = {},
 	},
-	{
-		"mrcjkb/haskell-tools.nvim",
-		ft = "haskell",
-	},
+	-- {
+	-- 	"mrcjkb/haskell-tools.nvim",
+	-- 	version = "^6",
+	-- 	ft = "haskell",
+	-- },
 	{
 		"mrcjkb/rustaceanvim",
 		lazy = false,
