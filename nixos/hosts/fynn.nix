@@ -5,7 +5,7 @@
 }:
 
 {
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 
   nixpkgs.config.allowUnfree = true;
 
@@ -84,9 +84,9 @@
     gnome.gnome-keyring.enable = true;
     illum.enable = true;
     input-remapper.enable = true;
-    logind = {
-      lidSwitch = "suspend";
-      powerKey = "suspend";
+    logind.settings.Login = {
+      HandleLidSwitch = "suspend";
+      HandlePowerKey = "suspend";
     };
     pipewire = {
       alsa = {
@@ -121,7 +121,6 @@
         SUBSYSTEM=="usb", ATTRS{idVendor}=="0d28", ATTRS{idProduct}=="0204", MODE="0666"
       '';
       packages = with pkgs; [
-        android-udev-rules
         platformio-core
         libwacom
         (writeTextFile {

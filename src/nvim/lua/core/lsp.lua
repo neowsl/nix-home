@@ -22,6 +22,16 @@ local servers = {
 	"yamlls",
 }
 
+vim.lsp.config("hls", {
+	settings = {
+		haskell = {
+			plugin = {
+				hlint = { globalOn = false },
+			},
+		},
+	},
+})
+
 vim.lsp.config("html", {
 	filetypes = { "html", "elixir", "heex" },
 })
