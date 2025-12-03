@@ -55,7 +55,7 @@ return {
 				},
 				lualine_c = {},
 				lualine_x = {},
-				lualine_y = { "filetype", "progress" },
+				lualine_y = { "filetype", "lsp_status" },
 				lualine_z = {
 					{
 						"location",
@@ -74,36 +74,6 @@ return {
 			},
 		},
 	},
-	-- NOTE: trying out dev experience without bufferline
-	-- {
-	-- 	"akinsho/bufferline.nvim",
-	-- 	dependencies = {
-	-- 		"catppuccin/nvim",
-	-- 	},
-	-- 	config = function()
-	-- 		require("bufferline").setup {
-	-- 			options = {
-	-- 				diagnostics = "nvim_lsp",
-	-- 				diagnostics_indicator = function(count, level, _, _)
-	-- 					local icon = level:match "error" and " " or " "
-	-- 					return " " .. icon .. count
-	-- 				end,
-	-- 				separator_style = "slant",
-	-- 			},
-	-- 			-- https://github.com/catppuccin/nvim?tab=readme-ov-file#integrations
-	-- 			highlights = require(
-	-- 				"catppuccin.groups.integrations.bufferline"
-	-- 			).get(),
-	-- 		}
-
-	-- 		vim.keymap.set(
-	-- 			"n",
-	-- 			"<Leader>`",
-	-- 			":BufferLineTogglePin<CR>",
-	-- 			{ silent = true }
-	-- 		)
-	-- 	end,
-	-- },
 	{
 		"DaikyXendo/nvim-material-icon",
 		opts = {
