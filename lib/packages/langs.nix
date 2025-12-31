@@ -30,7 +30,7 @@ with pkgs;
   haskellPackages.hlint
   haskellPackages.ormolu
   isort
-  jdk11
+  jdk25
   jdt-language-server
   lexical
   lua

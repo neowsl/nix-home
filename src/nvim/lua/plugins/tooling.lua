@@ -14,6 +14,7 @@ return {
 				heex = { "mix" },
 				html = { "prettierd" },
 				-- java = { "google-java-format" },
+				java = { "prettierd" },
 				javascript = { "prettierd" },
 				javascriptreact = { "prettierd" },
 				json = { "prettierd" },

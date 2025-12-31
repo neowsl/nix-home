@@ -9,7 +9,7 @@ with pkgs;
   just
   lazygit
   neovide
-  pkgsUnstable.neovim
+  neovim
   ninja
   postman
   sccache
