@@ -1,5 +1,6 @@
 vim.o.clipboard = "unnamedplus"
 vim.o.colorcolumn = "80"
+vim.o.expandtab = true
 vim.o.ignorecase = true
 vim.o.lazyredraw = true
 vim.o.number = true
