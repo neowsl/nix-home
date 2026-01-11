@@ -106,6 +106,13 @@
         host    all             all             ::1/128                 trust
       '';
     };
+    printing = {
+      enable = true;
+      drivers = with pkgs; [
+        cups-filters
+        cups-browsed
+      ];
+    };
     ratbagd.enable = true;
     tlp = {
       enable = true;

@@ -20,5 +20,6 @@ with pkgs;
   piper
   polkit_gnome
   slurp
+  system-config-printer
   way-displays
 ]
