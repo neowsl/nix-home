@@ -1,4 +1,4 @@
-{ pkgs, pkgsUnstable }:
+{ pkgs, pkgs-unstable }:
 
 with pkgs;
 [

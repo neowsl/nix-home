@@ -1,4 +1,4 @@
-{ pkgs, pkgsUnstable }:
+{ pkgs, pkgs-unstable }:
 
 with pkgs;
 [
@@ -7,14 +7,14 @@ with pkgs;
   blender
   brave
   dl-librescore
-  pkgsUnstable.electron-mail
+  pkgs-unstable.electron-mail
   evince
   foliate
   gimp3
   inkscape
   kdePackages.kdenlive
   krita
-  pkgsUnstable.legcord
+  pkgs-unstable.legcord
   libqalculate
   libreoffice-qt
   libresprite

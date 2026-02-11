@@ -1,12 +1,12 @@
-{ pkgs, pkgsUnstable }:
+{ pkgs, pkgs-unstable }:
 
 let
-  apps = import ./apps.nix { inherit pkgs pkgsUnstable; };
-  cli = import ./cli.nix { inherit pkgs pkgsUnstable; };
-  dev = import ./dev.nix { inherit pkgs pkgsUnstable; };
-  fonts = import ./fonts.nix { inherit pkgs pkgsUnstable; };
-  fun = import ./fun.nix { inherit pkgs pkgsUnstable; };
-  langs = import ./langs.nix { inherit pkgs pkgsUnstable; };
-  system = import ./system.nix { inherit pkgs pkgsUnstable; };
+  apps = import ./apps.nix { inherit pkgs pkgs-unstable; };
+  cli = import ./cli.nix { inherit pkgs pkgs-unstable; };
+  dev = import ./dev.nix { inherit pkgs pkgs-unstable; };
+  fonts = import ./fonts.nix { inherit pkgs pkgs-unstable; };
+  fun = import ./fun.nix { inherit pkgs pkgs-unstable; };
+  langs = import ./langs.nix { inherit pkgs pkgs-unstable; };
+  system = import ./system.nix { inherit pkgs pkgs-unstable; };
 in
 apps ++ cli ++ dev ++ fonts ++ fun ++ langs ++ system

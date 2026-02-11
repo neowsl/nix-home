@@ -1,8 +1,8 @@
-{ pkgs, pkgsUnstable }:
+{ pkgs, pkgs-unstable }:
 
 with pkgs;
 [
-  pkgsUnstable.airshipper
+  pkgs-unstable.airshipper
   asciiquarium
   blanket
   cmatrix

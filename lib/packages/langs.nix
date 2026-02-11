@@ -1,4 +1,4 @@
-{ pkgs, pkgsUnstable }:
+{ pkgs, pkgs-unstable }:
 
 with pkgs;
 [
@@ -6,7 +6,7 @@ with pkgs;
   astro-language-server
   bash-language-server
   black
-  pkgsUnstable.bun
+  pkgs-unstable.bun
   clang-tools
   cling
   # dune_3
@@ -18,7 +18,7 @@ with pkgs;
   gcc14
   gdb
   gdtoolkit_4
-  # pkgsUnstable.gleam
+  # pkgs-unstable.gleam
   go
   google-java-format
   gopls
@@ -44,9 +44,9 @@ with pkgs;
   # ocamlPackages.ocamlformat
   # ocamlPackages.utop
   # opam
-  # pkgsUnstable.oxlint
+  # pkgs-unstable.oxlint
   prettierd
-  pkgsUnstable.pyrefly
+  pkgs-unstable.pyrefly
   python3
   python312Packages.pip
   rustup
