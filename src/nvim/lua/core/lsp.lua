@@ -14,7 +14,6 @@ local servers = {
 	"nil_ls",
 	-- "ocamllsp",
 	"pyrefly",
-	"qmlls",
 	"svelte",
 	"tailwindcss",
 	"tinymist",

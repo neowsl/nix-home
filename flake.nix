@@ -6,6 +6,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    # extra packages
+    ags.url = "github:aylur/ags";
     awww.url = "git+https://codeberg.org/LGFae/awww";
     hashword.url = "github:neowsl/hashword";
     zen-browser = {
@@ -19,11 +22,8 @@
       nixpkgs,
       home-manager,
       nixpkgs-unstable,
-      awww,
-      hashword,
-      zen-browser,
       ...
-    }:
+    }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -35,7 +35,7 @@
           ];
         };
       };
-      pkgsUnstable = import nixpkgs-unstable {
+      pkgs-unstable = import nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
       };
@@ -44,14 +44,9 @@
       homeConfigurations.neo = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
 
-        modules = [ ./home.nix ];
+        extraSpecialArgs = { inherit inputs pkgs-unstable; };
 
-        extraSpecialArgs = {
-          pkgsUnstable = pkgsUnstable;
-          awww = awww;
-          hashword = hashword;
-          zen-browser = zen-browser;
-        };
+        modules = [ ./home.nix ];
       };
     };
 }

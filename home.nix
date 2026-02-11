@@ -1,15 +1,23 @@
 {
   pkgs,
-  pkgsUnstable,
-  awww,
-  hashword,
-  zen-browser,
+  pkgs-unstable,
+  inputs,
   ...
 }:
 
 let
-  packages = import ./lib/packages { inherit pkgs pkgsUnstable; };
+  awww = inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  hashword = inputs.hashword.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  zen = inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
   patrick-hand = pkgs.callPackage ./lib/derivations/patrick-hand.nix { };
+
+  packages = import ./lib/packages { inherit pkgs pkgs-unstable; } ++ [
+    awww
+    hashword
+    zen
+    patrick-hand
+  ];
   # nix-gaming = import (builtins.fetchTarball "https://github.com/fufexan/nix-gaming/archive/master.tar.gz");
 in
 {
@@ -20,6 +28,8 @@ in
       "flakes"
     ];
   };
+
+  imports = [ inputs.ags.homeManagerModules.default ];
 
   home = {
     file = {
@@ -47,10 +57,6 @@ in
         source = ./src/nvim;
         recursive = true;
       };
-      ".config/quickshell" = {
-        source = ./src/quickshell;
-        recursive = true;
-      };
       ".config/xkb" = {
         source = ./src/xkb;
         recursive = true;
@@ -72,12 +78,7 @@ in
     };
     homeDirectory = "/home/neo";
     keyboard.options = [ "caps:escape" ];
-    packages = packages ++ [
-      awww.packages.${pkgs.stdenv.hostPlatform.system}.default
-      hashword.packages.${pkgs.stdenv.hostPlatform.system}.default
-      zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-      patrick-hand
-    ];
+    inherit packages;
     pointerCursor = {
       gtk.enable = true;
       name = "Bibata-Modern-Classic";
@@ -113,16 +114,18 @@ in
     username = "neo";
   };
 
-  # nixpkgs.config.allowUnfree = true;
-
   programs = {
+    ags = {
+      enable = true;
+      configDir = ./src/ags;
+    };
     direnv = {
       enable = true;
       nix-direnv.enable = true;
     };
     fish = {
       enable = true;
-      package = pkgsUnstable.fish;
+      package = pkgs-unstable.fish;
       functions = {
         fish_user_key_bindings = "fish_vi_key_bindings";
         fish_greeting = ''
@@ -167,7 +170,6 @@ in
       extraConfig = builtins.readFile ./src/kitty.conf;
     };
     obs-studio.enable = true;
-    quickshell.enable = true;
     rofi = {
       enable = true;
       extraConfig = {
