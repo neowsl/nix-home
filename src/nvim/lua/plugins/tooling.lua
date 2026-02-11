@@ -25,6 +25,7 @@ return {
 				-- ocaml = { "ocamlformat" },
 				python = { "isort", "black" },
 				rust = { "rustfmt" },
+				scss = { "prettierd" },
 				svelte = { "prettierd" },
 				typescript = { "prettierd" },
 				typescriptreact = { "prettierd" },

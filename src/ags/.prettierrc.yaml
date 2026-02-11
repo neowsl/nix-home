@@ -1,0 +1,4 @@
+tabWidth: 4
+
+plugins:
+    - "@ianvs/prettier-plugin-sort-imports"
