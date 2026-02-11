@@ -47,6 +47,10 @@ in
         source = ./src/nvim;
         recursive = true;
       };
+      ".config/quickshell" = {
+        source = ./src/quickshell;
+        recursive = true;
+      };
       ".config/xkb" = {
         source = ./src/xkb;
         recursive = true;
@@ -163,6 +167,7 @@ in
       extraConfig = builtins.readFile ./src/kitty.conf;
     };
     obs-studio.enable = true;
+    quickshell.enable = true;
     rofi = {
       enable = true;
       extraConfig = {

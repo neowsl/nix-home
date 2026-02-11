@@ -16,6 +16,7 @@ with pkgs;
   # lxqt.lxqt-policykit
   networkmanagerapplet
   notify-desktop
+  nwg-displays
   pavucontrol
   piper
   polkit_gnome

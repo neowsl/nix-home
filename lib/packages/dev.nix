@@ -17,6 +17,7 @@ with pkgs;
   showmethekey
   tree-sitter
   uxplay
+  vim-full
   websocat
   wl-clipboard
 ]
