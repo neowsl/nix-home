@@ -101,7 +101,6 @@ const Bar = (gdkmonitor: Gdk.Monitor) => {
 
     return (
         <window
-            visible
             name="bar"
             class="Bar"
             gdkmonitor={gdkmonitor}
