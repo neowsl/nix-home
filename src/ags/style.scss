@@ -1,20 +1,59 @@
 // https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
-$fg-color: #{"@theme_fg_color"};
 $bg-color: #{"@theme_bg_color"};
 
+$text-color: #cdd6f4;
+$lavender: #b4befe;
+$yellow: #f9e2af;
+
 window.Bar {
-  background: transparent;
-  color: $fg-color;
-  font-weight: bold;
+    background: transparent;
+    color: $text-color;
+    font-family: "Ubuntu";
+    font-size: 16px;
 
-  >centerbox {
-    background: $bg-color;
-    border-radius: 10px;
-    margin: 4px;
-  }
+    .container {
+        .bubble {
+            background: $bg-color;
+            border: 2px solid $lavender;
+            border-radius: 10px;
+            margin: 4px;
+            margin-bottom: 0;
+            padding: 4px 8px;
+        }
 
-  button {
-    border-radius: 8px;
-    margin: 2px;
-  }
+        .workspaces {
+            font-size: 18px;
+
+            button {
+                &.active {
+                    color: $yellow;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .clock {
+            font-size: 18px;
+        }
+
+        .no-gap {
+            margin-left: 2px;
+        }
+    }
+
+    button {
+        padding: 0;
+        outline: none;
+        font-weight: normal;
+        background: none;
+        box-shadow: none;
+
+        &:checked {
+            color: $text-color;
+        }
+
+        image {
+            -gtk-icon-size: 24px;
+        }
+    }
 }

@@ -118,6 +118,13 @@ in
     ags = {
       enable = true;
       configDir = ./src/ags;
+      extraPackages = [
+        inputs.astal.packages.${pkgs.system}.battery
+        inputs.astal.packages.${pkgs.system}.hyprland
+        inputs.astal.packages.${pkgs.system}.powerprofiles
+        inputs.astal.packages.${pkgs.system}.tray
+        inputs.astal.packages.${pkgs.system}.wireplumber
+      ];
     };
     direnv = {
       enable = true;

@@ -9,6 +9,7 @@
 
     # extra packages
     ags.url = "github:aylur/ags";
+    astal.url = "github:aylur/astal";
     awww.url = "git+https://codeberg.org/LGFae/awww";
     hashword.url = "github:neowsl/hashword";
     zen-browser = {
