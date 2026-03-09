@@ -29,53 +29,41 @@ in
     ];
   };
 
-  imports = [ inputs.ags.homeManagerModules.default ];
-
   home = {
-    file = {
-      ".config/bat" = {
-        source = ./src/bat;
-        recursive = true;
+    file =
+      let
+        # collect all directories under `src`
+        srcContents = builtins.readDir ./src;
+        configDirs = builtins.filter (
+          name:
+          srcContents.${name} == "directory"
+          && !(pkgs.lib.hasPrefix "." name)
+          && !(pkgs.lib.hasPrefix "_" name)
+        ) (builtins.attrNames srcContents);
+
+        mkConfig = name: {
+          source = ./src + "/${name}";
+          recursive = true;
+        };
+      in
+      # map each config directory to an attribute set suitable for `file`
+      (builtins.listToAttrs (
+        map (name: {
+          name = ".config/${name}";
+          value = mkConfig name;
+        }) configDirs
+      ))
+      // {
+        ".face".source = ./src/.face;
+        ".ghc" = mkConfig ".ghc";
+        ".npmrc".source = ./src/.npmrc;
+        ".config/opencode/opencode.json".source = ./src/_opencode/opencode.json;
+
+        # ".config/xilinx/nix.sh".text = ''
+        #   INSTALL_DIR=$HOME/tools/Xilinx
+        #   VERSION=2024.1
+        # '';
       };
-      ".config/ghostty" = {
-        source = ./src/ghostty;
-        recursive = true;
-      };
-      ".config/helix" = {
-        source = ./src/helix;
-        recursive = true;
-      };
-      ".config/hypr" = {
-        source = ./src/hypr;
-        recursive = true;
-      };
-      ".config/neovide" = {
-        source = ./src/neovide;
-        recursive = true;
-      };
-      ".config/nvim" = {
-        source = ./src/nvim;
-        recursive = true;
-      };
-      ".config/xkb" = {
-        source = ./src/xkb;
-        recursive = true;
-      };
-      ".config/yazi" = {
-        source = ./src/yazi;
-        recursive = true;
-      };
-      ".face".source = ./src/.face;
-      ".ghc" = {
-        source = ./src/.ghc;
-        recursive = true;
-      };
-      ".npmrc".source = ./src/.npmrc;
-      # ".config/xilinx/nix.sh".text = ''
-      #   INSTALL_DIR=$HOME/tools/Xilinx
-      #   VERSION=2024.1
-      # '';
-    };
     homeDirectory = "/home/neo";
     keyboard.options = [ "caps:escape" ];
     inherit packages;
@@ -115,17 +103,6 @@ in
   };
 
   programs = {
-    ags = {
-      enable = true;
-      configDir = ./src/ags;
-      extraPackages = [
-        inputs.astal.packages.${pkgs.system}.battery
-        inputs.astal.packages.${pkgs.system}.hyprland
-        inputs.astal.packages.${pkgs.system}.powerprofiles
-        inputs.astal.packages.${pkgs.system}.tray
-        inputs.astal.packages.${pkgs.system}.wireplumber
-      ];
-    };
     direnv = {
       enable = true;
       nix-direnv.enable = true;
