@@ -20,7 +20,7 @@ return {
 				})
 			end)
 
-			for i = 0, 9 do
+			for i = 1, 8 do -- 9 reserved for 99
 				vim.keymap.set("n", "<Leader>" .. i, function()
 					harpoon:list():select(i)
 				end)
