@@ -11,6 +11,7 @@ with pkgs;
   neovide
   neovim
   ninja
+  pkgs-unstable.opencode
   postman
   sccache
   scrcpy

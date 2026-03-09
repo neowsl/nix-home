@@ -82,6 +82,7 @@
     #   };
     # };
     gnome.gnome-keyring.enable = true;
+    gvfs.enable = true;
     illum.enable = true;
     input-remapper.enable = true;
     logind.settings.Login = {
