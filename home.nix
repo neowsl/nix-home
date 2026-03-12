@@ -58,7 +58,6 @@ in
         ".ghc" = mkConfig ".ghc";
         ".npmrc".source = ./src/.npmrc;
         ".config/opencode/opencode.json".source = ./src/_opencode/opencode.json;
-        ".config/qutebrowser/config.py".source = ./src/qutebrowser/config.py;
 
         # ".config/xilinx/nix.sh".text = ''
         #   INSTALL_DIR=$HOME/tools/Xilinx

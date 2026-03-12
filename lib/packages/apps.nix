@@ -21,7 +21,6 @@ with pkgs;
   musescore
   obsidian
   qalculate-gtk
-  qutebrowser
   seahorse
   steam
   vlc
