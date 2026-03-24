@@ -128,7 +128,10 @@ in
       shellAbbrs = {
         "-" = "cd -";
       };
-      shellInit = "direnv hook fish | source";
+      shellInit = ''
+        direnv hook fish | source
+        fish_config theme choose catppuccin-mocha
+      '';
     };
     ghostty = {
       enable = true;
@@ -326,11 +329,16 @@ in
     defaultApplications = {
       # "text/html" = [ "firefox-developer-edition.desktop" ];
       # "text/html" = [ "brave.desktop" ];
-      "text/html" = [ "zen.desktop" ];
-      "x-scheme-handler/http" = [ "zen.desktop" ];
-      "x-scheme-handler/https" = [ "zen.desktop" ];
-      "x-scheme-handler/about" = [ "zen.desktop" ];
-      "x-scheme-handler/unknown" = [ "zen.desktop" ];
+      # "text/html" = [ "zen.desktop" ];
+      # "x-scheme-handler/http" = [ "zen.desktop" ];
+      # "x-scheme-handler/https" = [ "zen.desktop" ];
+      # "x-scheme-handler/about" = [ "zen.desktop" ];
+      # "x-scheme-handler/unknown" = [ "zen.desktop" ];
+      "text/html" = [ "firefox.desktop" ];
+      "x-scheme-handler/http" = [ "firefox.desktop" ];
+      "x-scheme-handler/https" = [ "firefox.desktop" ];
+      "x-scheme-handler/about" = [ "firefox.desktop" ];
+      "x-scheme-handler/unknown" = [ "firefox.desktop" ];
       "application/pdf" = [ "org.gnome.Evince.desktop" ];
     };
   };
