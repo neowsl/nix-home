@@ -7,7 +7,12 @@ return {
 
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
-		opts = {},
+		opts = {
+			keymap = {
+				preset = "default",
+				["<C-k>"] = { "accept", "fallback" },
+			},
+		},
 		opts_extend = { "sources.default" },
 	},
 }
