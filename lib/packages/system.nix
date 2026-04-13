@@ -23,4 +23,5 @@ with pkgs;
   slurp
   system-config-printer
   way-displays
+  wget
 ]

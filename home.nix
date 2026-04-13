@@ -182,6 +182,14 @@ in
         };
       };
     };
+    vscode = {
+      enable = true;
+      package = pkgs.vscodium;
+      profiles.default.extensions = with pkgs.vscode-extensions; [
+        catppuccin.catppuccin-vsc
+        vscodevim.vim
+      ];
+    };
     waybar = {
       enable = true;
       settings = {
@@ -329,16 +337,16 @@ in
     defaultApplications = {
       # "text/html" = [ "firefox-developer-edition.desktop" ];
       # "text/html" = [ "brave.desktop" ];
-      # "text/html" = [ "zen.desktop" ];
-      # "x-scheme-handler/http" = [ "zen.desktop" ];
-      # "x-scheme-handler/https" = [ "zen.desktop" ];
-      # "x-scheme-handler/about" = [ "zen.desktop" ];
-      # "x-scheme-handler/unknown" = [ "zen.desktop" ];
-      "text/html" = [ "firefox.desktop" ];
-      "x-scheme-handler/http" = [ "firefox.desktop" ];
-      "x-scheme-handler/https" = [ "firefox.desktop" ];
-      "x-scheme-handler/about" = [ "firefox.desktop" ];
-      "x-scheme-handler/unknown" = [ "firefox.desktop" ];
+      "text/html" = [ "zen.desktop" ];
+      "x-scheme-handler/http" = [ "zen.desktop" ];
+      "x-scheme-handler/https" = [ "zen.desktop" ];
+      "x-scheme-handler/about" = [ "zen.desktop" ];
+      "x-scheme-handler/unknown" = [ "zen.desktop" ];
+      # "text/html" = [ "firefox.desktop" ];
+      # "x-scheme-handler/http" = [ "firefox.desktop" ];
+      # "x-scheme-handler/https" = [ "firefox.desktop" ];
+      # "x-scheme-handler/about" = [ "firefox.desktop" ];
+      # "x-scheme-handler/unknown" = [ "firefox.desktop" ];
       "application/pdf" = [ "org.gnome.Evince.desktop" ];
     };
   };

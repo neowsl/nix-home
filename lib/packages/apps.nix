@@ -17,7 +17,6 @@ with pkgs;
   kdePackages.kdenlive
   krita
   pkgs-unstable.legcord
-  prismlauncher
   libqalculate
   libreoffice-qt
   libresprite

@@ -11,5 +11,6 @@ with pkgs;
   oneko
   pfetch
   pipes
+  pkgs-unstable.prismlauncher
   tty-clock
 ]
