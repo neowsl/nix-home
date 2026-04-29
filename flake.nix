@@ -10,6 +10,10 @@
     # extra packages
     awww.url = "git+https://codeberg.org/LGFae/awww";
     hashword.url = "github:neowsl/hashword";
+    nix-doom-emacs-unstraightened = {
+      url = "github:marienz/nix-doom-emacs-unstraightened";
+      inputs.nixpkgs.follows = "";
+    };
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,6 +25,7 @@
       nixpkgs,
       home-manager,
       nixpkgs-unstable,
+      nix-doom-emacs-unstraightened,
       ...
     }@inputs:
     let
@@ -41,11 +46,14 @@
     in
     {
       homeConfigurations.neo = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
+        inherit pkgs;
 
         extraSpecialArgs = { inherit inputs pkgs-unstable; };
 
-        modules = [ ./home.nix ];
+        modules = [
+          ./home.nix
+          nix-doom-emacs-unstraightened.hmModule
+        ];
       };
     };
 }
