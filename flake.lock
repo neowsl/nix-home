@@ -20,45 +20,6 @@
         "url": "https://codeberg.org/LGFae/awww"
       }
     },
-    "doomemacs": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1777326848,
-        "narHash": "sha256-7ErKUgw6Ch7hP1oBjMSos8xXRD+rxxjaOldRn+TcClo=",
-        "owner": "doomemacs",
-        "repo": "doomemacs",
-        "rev": "6be3337b49867bd86f90fe5ca4beeb6b38afaddb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "doomemacs",
-        "repo": "doomemacs",
-        "type": "github"
-      }
-    },
-    "emacs-overlay": {
-      "inputs": {
-        "nixpkgs": [
-          "nix-doom-emacs-unstraightened"
-        ],
-        "nixpkgs-stable": [
-          "nix-doom-emacs-unstraightened"
-        ]
-      },
-      "locked": {
-        "lastModified": 1777374399,
-        "narHash": "sha256-7l5lBvVcMF4yyWD6rRF4qGLkqWkZ6XjFGX/ug+DTF2c=",
-        "owner": "nix-community",
-        "repo": "emacs-overlay",
-        "rev": "caffeac5f51131d1fc095da8d526e0a94443e2d0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "emacs-overlay",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -133,27 +94,6 @@
         "type": "github"
       }
     },
-    "nix-doom-emacs-unstraightened": {
-      "inputs": {
-        "doomemacs": "doomemacs",
-        "emacs-overlay": "emacs-overlay",
-        "nixpkgs": [],
-        "systems": "systems_2"
-      },
-      "locked": {
-        "lastModified": 1777381936,
-        "narHash": "sha256-ti3Rfha4cpWy+23yH/8TSMiSVLnt4SQpj64fKzzaT5U=",
-        "owner": "marienz",
-        "repo": "nix-doom-emacs-unstraightened",
-        "rev": "b342035050387785c6ed7559292c5b6041ece109",
-        "type": "github"
-      },
-      "original": {
-        "owner": "marienz",
-        "repo": "nix-doom-emacs-unstraightened",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1763934636,
@@ -223,7 +163,6 @@
         "awww": "awww",
         "hashword": "hashword",
         "home-manager": "home-manager",
-        "nix-doom-emacs-unstraightened": "nix-doom-emacs-unstraightened",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "zen-browser": "zen-browser"
@@ -251,21 +190,6 @@
       }
     },
     "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
-    "systems_2": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

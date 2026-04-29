@@ -107,10 +107,6 @@ in
       enable = true;
       nix-direnv.enable = true;
     };
-    doom-emacs = {
-      enable = true;
-      doomDir = ./src/doom;
-    };
     fish = {
       enable = true;
       package = pkgs-unstable.fish;
