@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   pkgs-unstable,
   inputs,
@@ -76,12 +77,14 @@ in
     };
     sessionPath = [
       "$HOME/.bun/bin"
+      "$HOME/.config/emacs/bin"
       "$HOME/.config/home-manager/bin"
       "$HOME/.npm-packages/bin"
       "$HOME/bin"
     ];
     sessionVariables = {
       BAT_THEME = "Catppuccin Mocha";
+      DOOMDIR = "${config.home.homeDirectory}/.config/home-manager/src/doom";
       EDITOR = "nvim";
       MOZ_USE_XINPUT2 = "1";
       NIXOS_OZONE_WL = "1";
@@ -90,7 +93,6 @@ in
       QT_STYLE_OVERRIDE = "kvantum";
     };
     shellAliases = {
-      home = "vi ~/.config/home-manager";
       ls = "eza --all --long --icons --git";
       vi = "nvim";
       vim = "vi";
@@ -294,6 +296,10 @@ in
     #   };
     # };
     udiskie.enable = true;
+  };
+
+  systemd.user.sessionVariables = {
+    DOOMDIR = "${config.home.homeDirectory}/.config/home-manager/src/doom";
   };
 
   wayland.windowManager.hyprland = {
