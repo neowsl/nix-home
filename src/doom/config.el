@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-;; (setq user-full-name "John Doe"
-;;       user-mail-address "john@doe.com")
+(setq user-full-name "Neal Wang"
+      user-mail-address "nealwang.sh@protonmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -23,7 +23,7 @@
 ;;
 (setq doom-font (font-spec :family "Cascadia Code NF" :size 18 :weight 'semi-light)
       doom-variable-pitch-font (font-spec :family "Cascadia Code NF" :size 18))
-;;
+
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -37,6 +37,20 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
+
+(defun my/evil-toggle-relative-lines ()
+  "Toggle between relative and absolute line numbers based on Evil state."
+  (setq display-line-numbers-type
+        (if (memq evil-state '(normal visual motion))
+            'relative
+          t))
+  (display-line-numbers-mode 1))
+
+;; Hook into Evil state changes
+(add-hook 'evil-normal-state-entry-hook #'my/evil-toggle-relative-lines)
+(add-hook 'evil-visual-state-entry-hook #'my/evil-toggle-relative-lines)
+(add-hook 'evil-insert-state-entry-hook #'my/evil-toggle-relative-lines)
+(add-hook 'evil-motion-state-entry-hook #'my/evil-toggle-relative-lines)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -73,3 +87,12 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(use-package! gptel
+  :config
+  (setq auth-sources '("~/.authinfo"))
+  (setq gptel-api-key (auth-source-pick-first-password :host "api.generativelanguage.googleapis.com"))
+  (setq gptel-model 'gemini-2.5-flash
+        gptel-backend (gptel-make-gemini "Gemini"
+                        :key gptel-api-key
+                        :stream t)))

@@ -150,6 +150,7 @@ in
         init.defaultBranch = "main";
       };
     };
+    gpg.enable = true;
     helix.enable = true;
     home-manager.enable = true;
     htop.enable = true;
