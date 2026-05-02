@@ -13,6 +13,7 @@ with pkgs;
   hyprshot
   inotify-tools
   libsecret
+  libtool
   # lxqt.lxqt-policykit
   networkmanagerapplet
   notify-desktop

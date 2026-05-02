@@ -4,7 +4,7 @@ with pkgs;
 [
   arduino-ide
   cmake
-  emacs
+  emacs-pgtk
   gnumake
   godot
   just
