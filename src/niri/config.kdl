@@ -1,0 +1,7 @@
+let-binds {
+    $terminal "kitty"
+}
+
+binds {
+    Mod+Enter { spawn "$terminal"; }
+}

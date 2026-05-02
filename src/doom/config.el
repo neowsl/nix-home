@@ -93,8 +93,18 @@
 (use-package! gptel
   :config
   (setq auth-sources '("~/.authinfo"))
-  (setq gptel-api-key (auth-source-pick-first-password :host "api.generativelanguage.googleapis.com"))
-  (setq gptel-model 'gemini-2.5-flash
-        gptel-backend (gptel-make-gemini "Gemini"
-                        :key gptel-api-key
-                        :stream t)))
+
+  ;; Gemini backend
+  (defvar gptel-gemini-backend
+    (gptel-make-gemini "Gemini"
+      :key (lambda () (auth-source-pick-first-password :host "api.generativelanguage.googleapis.com"))
+      :stream t
+      :models '(gemini-3.1-flash-lite-preview
+                gemini-2.5-flash)))
+
+  ;; Register all backends
+  (setq gptel-backends (list gptel-gemini-backend))
+
+  ;; Set the initial global defaults
+  (setq-default gptel-model 'gemini-3.1-flash-lite-preview
+                gptel-backend gptel-gemini-backend))
