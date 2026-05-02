@@ -29,14 +29,9 @@ in
   ];
 
   catppuccin = {
+    enable = true;
     accent = "lavender";
-
-    bat.enable = true;
-    btop.enable = true;
-    dunst.enable = true;
-    fish.enable = true;
-    kitty.enable = true;
-    starship.enable = true;
+    opencode.enable = false;
   };
 
   nix = {
