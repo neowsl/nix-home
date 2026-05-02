@@ -22,6 +22,23 @@ let
   # nix-gaming = import (builtins.fetchTarball "https://github.com/fufexan/nix-gaming/archive/master.tar.gz");
 in
 {
+  imports = [
+    inputs.dms.homeModules.default
+    inputs.dms.homeModules.niri
+    inputs.niri.homeModules.niri
+  ];
+
+  catppuccin = {
+    accent = "lavender";
+
+    bat.enable = true;
+    btop.enable = true;
+    dunst.enable = true;
+    fish.enable = true;
+    kitty.enable = true;
+    starship.enable = true;
+  };
+
   nix = {
     package = pkgs.nix;
     settings.experimental-features = [
@@ -58,7 +75,6 @@ in
         ".face".source = ./src/.face;
         ".ghc" = mkConfig ".ghc";
         ".npmrc".source = ./src/.npmrc;
-        ".config/opencode/opencode.json".source = ./src/_opencode/opencode.json;
 
         # ".config/xilinx/nix.sh".text = ''
         #   INSTALL_DIR=$HOME/tools/Xilinx
@@ -105,6 +121,12 @@ in
   };
 
   programs = {
+    btop.enable = true;
+    dank-material-shell = {
+      enable = true;
+      dgop.package = inputs.dgop.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      niri.enableSpawn = true;
+    };
     direnv = {
       enable = true;
       nix-direnv.enable = true;
@@ -132,7 +154,6 @@ in
       };
       shellInit = ''
         direnv hook fish | source
-        fish_config theme choose catppuccin-mocha
       '';
     };
     ghostty = {
@@ -153,11 +174,14 @@ in
     gpg.enable = true;
     helix.enable = true;
     home-manager.enable = true;
-    htop.enable = true;
     hyprlock.enable = true;
     kitty = {
       enable = true;
       extraConfig = builtins.readFile ./src/kitty.conf;
+    };
+    niri = {
+      enable = true;
+      package = pkgs.niri;
     };
     obs-studio.enable = true;
     rofi = {
@@ -270,20 +294,11 @@ in
       enable = true;
       settings = {
         global = {
-          background = "#1e1e2e";
           corner_radius = 10;
           font = "Ubuntu 12";
-          foreground = "#cdd6f4";
-          frame_color = "#89b4fa";
           frame_width = 2;
           offset = "8x8";
           width = 400;
-        };
-        urgency_critical = {
-          frame_color = "#f38ba8";
-        };
-        urgency_low = {
-          frame_color = "#a6e3a1";
         };
       };
     };
@@ -324,16 +339,16 @@ in
         accent = "blue";
       };
     };
-    theme = {
-      name = "Colloid-Dark-Catppuccin";
-      package = pkgs.colloid-gtk-theme.override {
-        tweaks = [
-          "catppuccin"
-          "black"
-          "rimless"
-        ];
-      };
-    };
+    # theme = {
+    #   name = "Colloid-Dark-Catppuccin";
+    #   package = pkgs.colloid-gtk-theme.override {
+    #     tweaks = [
+    #       "catppuccin"
+    #       "black"
+    #       "rimless"
+    #     ];
+    #   };
+    # };
   };
 
   xdg.mimeApps = {
