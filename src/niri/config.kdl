@@ -1,13 +1,81 @@
+prefer-no-csd
+
+input {
+    touchpad {
+        tap
+        natural-scroll
+    }
+
+    focus-follows-mouse max-scroll-amount="95%"
+}
+
+output "eDP-1" {
+    scale 1
+}
+
+layout {
+    gaps 8
+
+    background-color "transparent"
+
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        off
+    }
+
+    border {
+        on
+        width 2
+        active-color "#b4befe"
+        inactive-color "#6c7086"
+    }
+}
+
+spawn-at-startup "dms" "run"
+spawn-at-startup "emacs" "--daemon"
+
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+}
+
+window-rule {
+    match app-id="float"
+    match app-id="qalculate-gtk"
+
+    open-floating true
+
+    default-column-width { fixed 800; }
+    default-window-height { fixed 600; }
+}
+
 binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
     Mod+C      { close-window; }
     Mod+Return { spawn "kitty"; }
     Mod+E      { spawn "emacsclient" "-c"; }
     Mod+B      { spawn "zen"; }
     Mod+T      { spawn "thunar"; }
     Mod+O      { spawn "obsidian"; }
+    Mod+Tab    { spawn "kitty" "--class" "float" "hashword"; }
     Mod+Equal  { spawn "qalculate-gtk"; }
 
-    Mod+P { spawn "dms" "ipc" "spotlight"; }
+    Mod+P { spawn "dms" "ipc" "call" "spotlight" "open"; }
+
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+
+    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
+    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
+    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
     Mod+H     { focus-column-left; }
     Mod+J     { focus-window-down; }
@@ -17,6 +85,13 @@ binds {
     Mod+Shift+J     { move-window-down; }
     Mod+Shift+K     { move-window-up; }
     Mod+Shift+L     { move-column-right; }
+
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    Mod+WheelScrollRight      { focus-column-right; }
+    Mod+WheelScrollLeft       { focus-column-left; }
+    Mod+Shift+WheelScrollDown      { focus-column-right; }
+    Mod+Shift+WheelScrollUp        { focus-column-left; }
 
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
@@ -43,39 +118,10 @@ binds {
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-column-width-back; }
 
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
-    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
-}
+    Mod+Space { maximize-column; }
+    Mod+Shift+Space { fullscreen-window; }
 
-layout {
-    gaps 8
+    Mod+F { toggle-window-floating; }
 
-    default-column-width { proportion 0.5; }
-
-    focus-ring {
-        width 2
-        active-color "#b4befe"
-        inactive-color "#6c7086"
-    }
-
-    border {
-        off
-    }
-}
-
-window-rule {
-    geometry-corner-radius 10
-    clip-to-geometry true
-}
-
-input {
-    touchpad {
-        tap
-        natural-scroll
-    }
-}
-
-output "eDP-1" {
-    scale 1
+    Mod+Q { quit; }
 }

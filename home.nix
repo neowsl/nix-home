@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   pkgs-unstable,
   inputs,
@@ -24,14 +25,14 @@ in
 {
   imports = [
     inputs.dms.homeModules.default
-    inputs.dms.homeModules.niri
     inputs.niri.homeModules.niri
   ];
 
   catppuccin = {
     enable = true;
     accent = "lavender";
-    opencode.enable = false;
+
+    waybar.enable = false;
   };
 
   nix = {
@@ -120,7 +121,6 @@ in
     dank-material-shell = {
       enable = true;
       dgop.package = inputs.dgop.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      niri.enableSpawn = true;
     };
     direnv = {
       enable = true;
@@ -192,7 +192,6 @@ in
         show-icons = true;
         sidebar-mode = true;
       };
-      theme = ./src/rofi.rasi;
     };
     starship = {
       enable = true;
@@ -328,43 +327,48 @@ in
       size = 11;
     };
     iconTheme = {
-      name = "Papirus";
-      package = pkgs.catppuccin-papirus-folders.override {
-        flavor = "mocha";
-        accent = "blue";
+      name = lib.mkForce "Papirus";
+      package = lib.mkForce (
+        pkgs.catppuccin-papirus-folders.override {
+          flavor = "mocha";
+          accent = "blue";
+        }
+      );
+    };
+    theme = {
+      name = lib.mkForce "Colloid-Dark-Catppuccin";
+      package = pkgs.colloid-gtk-theme.override {
+        tweaks = [
+          "catppuccin"
+          "black"
+          "rimless"
+        ];
       };
     };
-    # theme = {
-    #   name = "Colloid-Dark-Catppuccin";
-    #   package = pkgs.colloid-gtk-theme.override {
-    #     tweaks = [
-    #       "catppuccin"
-    #       "black"
-    #       "rimless"
-    #     ];
-    #   };
-    # };
   };
 
-  xdg.mimeApps = {
-    enable = true;
-    associations.added = {
-      "application/pdf" = [ "org.gnome.Evince.desktop" ];
-    };
-    defaultApplications = {
-      # "text/html" = [ "firefox-developer-edition.desktop" ];
-      # "text/html" = [ "brave.desktop" ];
-      "text/html" = [ "zen.desktop" ];
-      "x-scheme-handler/http" = [ "zen.desktop" ];
-      "x-scheme-handler/https" = [ "zen.desktop" ];
-      "x-scheme-handler/about" = [ "zen.desktop" ];
-      "x-scheme-handler/unknown" = [ "zen.desktop" ];
-      # "text/html" = [ "firefox.desktop" ];
-      # "x-scheme-handler/http" = [ "firefox.desktop" ];
-      # "x-scheme-handler/https" = [ "firefox.desktop" ];
-      # "x-scheme-handler/about" = [ "firefox.desktop" ];
-      # "x-scheme-handler/unknown" = [ "firefox.desktop" ];
-      "application/pdf" = [ "org.gnome.Evince.desktop" ];
+  xdg = {
+    configFile."mimeapps.list".force = true;
+    mimeApps = {
+      enable = true;
+      associations.added = {
+        "application/pdf" = [ "org.gnome.Evince.desktop" ];
+      };
+      defaultApplications = {
+        # "text/html" = [ "firefox-developer-edition.desktop" ];
+        # "text/html" = [ "brave.desktop" ];
+        "text/html" = [ "zen.desktop" ];
+        "x-scheme-handler/http" = [ "zen.desktop" ];
+        "x-scheme-handler/https" = [ "zen.desktop" ];
+        "x-scheme-handler/about" = [ "zen.desktop" ];
+        "x-scheme-handler/unknown" = [ "zen.desktop" ];
+        # "text/html" = [ "firefox.desktop" ];
+        # "x-scheme-handler/http" = [ "firefox.desktop" ];
+        # "x-scheme-handler/https" = [ "firefox.desktop" ];
+        # "x-scheme-handler/about" = [ "firefox.desktop" ];
+        # "x-scheme-handler/unknown" = [ "firefox.desktop" ];
+        "application/pdf" = [ "org.gnome.Evince.desktop" ];
+      };
     };
   };
 

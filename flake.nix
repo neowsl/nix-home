@@ -9,7 +9,7 @@
 
     # extra packages
     awww.url = "git+https://codeberg.org/LGFae/awww";
-    catppuccin.url = "github:catppuccin/nix";
+    catppuccin.url = "github:catppuccin/nix/release-25.11";
     dgop = {
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
