@@ -17,6 +17,7 @@ with pkgs;
   scrcpy
   showmethekey
   tree-sitter
+  uv
   uxplay
   vim-full
   websocat

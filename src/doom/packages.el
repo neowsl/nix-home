@@ -55,3 +55,4 @@
 
 (package! catppuccin-theme)
 (package! gptel :recipe (:nonrecursive t))
+(package! leetcode)

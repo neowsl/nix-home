@@ -108,3 +108,9 @@
   ;; Set the initial global defaults
   (setq-default gptel-model 'gemini-3.1-flash-lite-preview
                 gptel-backend gptel-gemini-backend))
+
+(use-package! leetcode
+  :config
+  (setq leetcode-prefer-language "python3"
+        leetcode-save-solutions t
+        leetcode-directory "~/dev/leetcode/solutions"))
