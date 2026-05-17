@@ -1,5 +1,6 @@
 { pkgs, pkgs-unstable }:
 
+# cli tools
 with pkgs;
 [
   bat

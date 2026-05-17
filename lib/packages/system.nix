@@ -1,5 +1,6 @@
 { pkgs, pkgs-unstable }:
 
+# system utilities
 with pkgs;
 [
   alsa-utils

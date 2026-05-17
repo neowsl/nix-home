@@ -1,5 +1,6 @@
 { pkgs, pkgs-unstable }:
 
+# programming languages and tooling
 with pkgs;
 [
   air
@@ -20,6 +21,7 @@ with pkgs;
   gdtoolkit_4
   # pkgs-unstable.gleam
   go
+  golangci-lint
   google-java-format
   gopls
   haskell.compiler.ghc9103

@@ -1,11 +1,10 @@
 { pkgs, pkgs-unstable }:
 
+# non-development apps
 with pkgs;
 [
   art
   audacity
-  blender
-  brave
   chromium
   dl-librescore
   pkgs-unstable.electron-mail

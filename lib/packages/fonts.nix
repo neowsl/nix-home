@@ -1,5 +1,6 @@
 { pkgs, pkgs-unstable }:
 
+# fonts
 with pkgs;
 [
   cascadia-code

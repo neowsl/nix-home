@@ -20,8 +20,7 @@
 ;;
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
-;;
-(setq doom-font (font-spec :family "Cascadia Code NF" :size 18 :weight 'semi-light)
+(setq doom-font (font-spec :family "Cascadia Code NF" :size 18)
       doom-variable-pitch-font (font-spec :family "Cascadia Code NF" :size 18))
 
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -29,7 +28,7 @@
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 
-;; There are two ways to load a theme. Both assume the theme is installed and
+;; There are two ways to load a theme. Both assume the theme is installed anr
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'catppuccin)
@@ -47,10 +46,15 @@
   (display-line-numbers-mode 1))
 
 ;; Hook into Evil state changes
-(add-hook 'evil-normal-state-entry-hook #'my/evil-toggle-relative-lines)
-(add-hook 'evil-visual-state-entry-hook #'my/evil-toggle-relative-lines)
-(add-hook 'evil-insert-state-entry-hook #'my/evil-toggle-relative-lines)
-(add-hook 'evil-motion-state-entry-hook #'my/evil-toggle-relative-lines)
+(add-hook! '(evil-normal-state-entry-hook
+             evil-visual-state-entry-hook
+             evil-insert-state-entry-hook
+             evil-motion-state-entry-hook)
+           #'my/evil-toggle-relative-lines)
+
+(setq-default fill-column 80)
+(add-hook! 'prog-mode-hook #'display-fill-column-indicator-mode)
+(add-hook! 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -88,7 +92,51 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(add-to-list 'default-frame-alist '(alpha-background . 90))
+(add-to-list 'default-frame-alist '(alpha-background . 95))
+
+(dolist (mode-hook '(typescript-mode-hook
+                     typescript-ts-mode-hook
+                     tsx-ts-mode-hook
+                     js-mode-hook
+                     js-ts-mode-hook
+                     rjsx-mode-hook))
+  (add-hook mode-hook #'lsp-deferred))
+(after! lsp-mode
+  (setq lsp-tailwindcss-server-path
+        (executable-find "tailwindcss-language-server"))
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("pyrefly" "lsp"))
+                    :major-modes '(python-mode python-ts-mode)
+                    :priority -1
+                    :server-id 'pyrefly-ls)))
+
+(use-package! apheleia
+  :defer t
+  :init
+  (setq apheleia-log-only-errors t)
+  :config
+  (setf (alist-get 'biome apheleia-formatters)
+        '("biome" "format" "--stdin-file-path" filepath))
+
+  (dolist (entry '((css-mode . biome)
+                   (css-ts-mode . biome)
+                   (js-json-mode . biome)
+                   (js-mode . biome)
+                   (js-ts-mode . biome)
+                   (json-mode . biome)
+                   (json-ts-mode . biome)
+                   (rjsx-mode . biome)
+                   (typescript-mode . biome)
+                   (typescript-ts-mode . biome)
+                   (tsx-ts-mode . biome)))
+    (setf (alist-get (car entry) apheleia-mode-alist)
+          (cdr entry)))
+
+  (apheleia-global-mode +1))
+
+(provide 'init-format)
+
+(setq projectile-project-search-path '(("~/dev" . 2)))
 
 (use-package! gptel
   :config
@@ -97,7 +145,8 @@
   ;; Gemini backend
   (defvar gptel-gemini-backend
     (gptel-make-gemini "Gemini"
-      :key (lambda () (auth-source-pick-first-password :host "api.generativelanguage.googleapis.com"))
+      :key (lambda () (auth-source-pick-first-password
+                       :host "api.generativelanguage.googleapis.com"))
       :stream t
       :models '(gemini-3.1-flash-lite-preview
                 gemini-2.5-flash)))
@@ -114,3 +163,27 @@
   (setq leetcode-prefer-language "python3"
         leetcode-save-solutions t
         leetcode-directory "~/dev/leetcode/solutions"))
+
+(use-package! typst-ts-mode
+  :mode "\\.typ\\'"
+  :config
+  (setq typst-ts-indent-offset 2)
+
+  (map! :map typst-ts-mode-map
+        :localleader
+        "p" #'typst-preview-mode
+        "c" #'typst-ts-compile
+        "w" #'typst-ts-watch-mode))
+
+(use-package! typst-preview
+  :after typst-ts-mode
+  :config
+  (setq typst-preview-autostart t
+        typst-preview-open-browser-automatically t
+        typst-preview-browser "default"
+        typst-preview-invert-colors "never"
+        typst-preview-partial-rendering t)
+
+  (map! :map typst-preview-mode-map
+        :localleader
+        "s" #'typst-preview-send-position))

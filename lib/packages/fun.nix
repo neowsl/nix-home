@@ -1,9 +1,9 @@
 { pkgs, pkgs-unstable }:
 
+# games and cool/interesting apps
 with pkgs;
 [
-  pkgs-unstable.airshipper
-  asciiquarium
+  asciiquarium-transparent
   blanket
   cmatrix
   heroic

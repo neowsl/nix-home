@@ -1,8 +1,9 @@
 { pkgs, pkgs-unstable }:
 
+# general development tools
+# language-specific tools go in `./langs.nix`
 with pkgs;
 [
-  arduino-ide
   cmake
   emacs-pgtk
   gnumake
@@ -11,7 +12,6 @@ with pkgs;
   lazygit
   neovide
   neovim
-  ninja
   postman
   sccache
   scrcpy
