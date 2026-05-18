@@ -39,6 +39,30 @@ return {
 			},
 		},
 	},
+	{
+		"kawre/leetcode.nvim",
+		cmd = "Leet",
+		build = ":TSUpdate html",
+		dependencies = {
+			{
+				"3rd/image.nvim",
+				build = false,
+				opts = {},
+			},
+			"MunifTanjim/nui.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+		opts = {
+			lang = "python3",
+			storage = {
+				home = "~/dev/leetcode/solutions",
+			},
+			description = {
+				position = "right",
+			},
+			image_support = true,
+		},
+	},
 	-- markdown preview
 	{
 		"lukas-reineke/headlines.nvim",

@@ -11,7 +11,6 @@ with pkgs;
   just
   lazygit
   neovide
-  pkgs-unstable.neovim
   postman
   sccache
   scrcpy

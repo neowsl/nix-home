@@ -167,6 +167,12 @@ in
       enable = true;
       extraConfig = builtins.readFile ./src/kitty.conf;
     };
+    neovim = {
+      enable = true;
+      package = pkgs-unstable.neovim-unwrapped;
+      extraLuaPackages = ps: [ ps.magick ];
+      extraPackages = [ pkgs.imagemagick ];
+    };
     niri = {
       enable = true;
       package = pkgs.niri;
