@@ -49,10 +49,7 @@ in
         # collect all directories under `src`
         srcContents = builtins.readDir ./src;
         configDirs = builtins.filter (
-          name:
-          srcContents.${name} == "directory"
-          && !(pkgs.lib.hasPrefix "." name)
-          && !(pkgs.lib.hasPrefix "_" name)
+          name: srcContents.${name} == "directory" && !(builtins.elem name [ ".ghc" ])
         ) (builtins.attrNames srcContents);
 
         mkConfig = name: {
@@ -96,6 +93,7 @@ in
     ];
     sessionVariables = {
       BAT_THEME = "Catppuccin Mocha";
+      BIOME_BINARY = "${pkgs.biome}/bin/biome";
       DOOMDIR = "${config.home.homeDirectory}/.config/home-manager/src/doom";
       EDITOR = "nvim";
       MOZ_USE_XINPUT2 = "1";
@@ -151,10 +149,6 @@ in
         direnv hook fish | source
       '';
     };
-    ghostty = {
-      enable = true;
-      enableFishIntegration = true;
-    };
     git = {
       enable = true;
       settings = {
@@ -167,7 +161,6 @@ in
       };
     };
     gpg.enable = true;
-    helix.enable = true;
     home-manager.enable = true;
     hyprlock.enable = true;
     kitty = {

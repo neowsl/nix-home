@@ -101,6 +101,7 @@
                      js-ts-mode-hook
                      rjsx-mode-hook))
   (add-hook mode-hook #'lsp-deferred))
+(setq lsp-tailwindcss-add-on-mode t)
 (after! lsp-mode
   (setq lsp-tailwindcss-server-path
         (executable-find "tailwindcss-language-server"))
@@ -135,6 +136,17 @@
   (apheleia-global-mode +1))
 
 (provide 'init-format)
+
+(after! flycheck
+  (flycheck-define-checker biome
+    "A JavaScript/TypeScript linter and formatter using Biome."
+    :command ("biome" "check" "--formatter-enabled=false" "--stdin-file-path" source)
+    :standard-input t
+    :error-patterns
+    ((error line-start (file-name) ":" line ":" column " " (message) line-end))
+    :modes (js2-mode rjsx-mode tsx-ts-mode typescript-mode typescript-ts-mode))
+
+  (add-to-list 'flycheck-checkers 'biome))
 
 (setq projectile-project-search-path '(("~/dev" . 2)))
 

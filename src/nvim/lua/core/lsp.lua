@@ -1,6 +1,7 @@
 local servers = {
 	"astro",
 	"bashls",
+	"biome",
 	"clangd",
 	"cssls",
 	"emmet_language_server",

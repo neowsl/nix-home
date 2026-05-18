@@ -6,6 +6,7 @@ with pkgs;
   air
   astro-language-server
   bash-language-server
+  biome
   black
   pkgs-unstable.bun
   clang-tools

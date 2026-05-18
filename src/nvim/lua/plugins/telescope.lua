@@ -58,14 +58,14 @@ return {
 		end,
 		keys = {
 			{
-				"<Leader>tf",
+				"<Leader><Leader>",
 				function()
 					require("telescope.builtin").find_files()
 				end,
 				silent = true,
 			},
 			{
-				"<Leader>tg",
+				"<Leader>/",
 				function()
 					require("telescope.builtin").live_grep()
 				end,
