@@ -15,10 +15,12 @@ with pkgs;
   inotify-tools
   libsecret
   libtool
+  localsend
   # lxqt.lxqt-policykit
   networkmanagerapplet
   notify-desktop
   nwg-displays
+  openconnect
   pavucontrol
   piper
   polkit_gnome

@@ -11,7 +11,6 @@ with pkgs;
   pkgs-unstable.bun
   clang-tools
   cling
-  # dune_3
   elixir
   emmet-language-server
   erlang
@@ -42,12 +41,8 @@ with pkgs;
   nixfmt-rfc-style
   nodejs
   nodePackages.prettier
-  # ocaml
-  # ocamlPackages.ocaml-lsp
-  # ocamlPackages.ocamlformat
-  # ocamlPackages.utop
-  # opam
-  # pkgs-unstable.oxlint
+  odin
+  ols
   prettierd
   pkgs-unstable.pyrefly
   python3

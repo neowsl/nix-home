@@ -57,6 +57,13 @@ return {
 			storage = {
 				home = "~/dev/leetcode/solutions",
 			},
+			injector = {
+				["python3"] = {
+					imports = function()
+						return {}
+					end,
+				},
+			},
 			description = {
 				position = "right",
 			},

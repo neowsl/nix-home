@@ -12,6 +12,7 @@ with pkgs;
   openssl
   p7zip
   ripgrep
+  tree
   unzip
   usbutils
   xz
