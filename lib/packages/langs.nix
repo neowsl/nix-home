@@ -11,7 +11,6 @@ with pkgs;
   pkgs-unstable.bun
   clang-tools
   cling
-  elixir
   emmet-language-server
   erlang
   eslint_d
@@ -34,15 +33,14 @@ with pkgs;
   isort
   jdk25
   jdt-language-server
-  lexical
   lua
   lua-language-server
   nil
   nixfmt-rfc-style
   nodejs
-  nodePackages.prettier
   odin
   ols
+  prettier
   prettierd
   pkgs-unstable.pyrefly
   python3

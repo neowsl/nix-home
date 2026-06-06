@@ -110,7 +110,7 @@ in
       nix-xilinx = "nix run gitlab:doronbehar/nix-xilinx#xilinx-shell";
       vivado = "nix run gitlab:doronbehar/nix-xilinx#vivado";
     };
-    stateVersion = "25.11";
+    stateVersion = "26.05";
     username = "neo";
   };
 
@@ -202,14 +202,7 @@ in
         };
       };
     };
-    vscode = {
-      enable = true;
-      package = pkgs.vscodium;
-      profiles.default.extensions = with pkgs.vscode-extensions; [
-        catppuccin.catppuccin-vsc
-        vscodevim.vim
-      ];
-    };
+    vscodium.enable = true;
     waybar = {
       enable = true;
       settings = {

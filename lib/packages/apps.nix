@@ -25,7 +25,7 @@ with pkgs;
   seahorse
   steam
   vlc
-  (xfce.thunar.override {
+  (thunar.override {
     thunarPlugins = [
       file-roller
       xfce.thunar-archive-plugin

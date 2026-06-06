@@ -5,17 +5,22 @@
 }:
 
 {
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
   nixpkgs.config.allowUnfree = true;
 
   nix.settings.auto-optimise-store = true;
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   boot = {
     loader = {
       efi.canTouchEfiVariables = true;
       grub.enable = lib.mkForce false;
     };
+    kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
   };
 
   networking = {
@@ -90,12 +95,13 @@
       HandlePowerKey = "suspend";
     };
     pipewire = {
+      enable = true;
       alsa = {
         enable = true;
         support32Bit = true;
       };
-      enable = true;
       pulse.enable = true;
+      wireplumber.enable = true;
     };
     postgresql = {
       enable = true;
@@ -195,7 +201,10 @@
     opentabletdriver.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [ git ];
+  environment.systemPackages = with pkgs; [
+    git
+    xwayland-satellite
+  ];
 
   programs = {
     dconf.enable = true;
@@ -210,10 +219,21 @@
 
   xdg.portal = {
     enable = true;
-    config.common.default = "*";
+    config = {
+      common = {
+        default = [ "gtk" ];
+      };
+      niri = {
+        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
+      };
+    };
     extraPortals = with pkgs; [
+      xdg-desktop-portal-gnome
+      xdg-desktop-portal-gtk
       xdg-desktop-portal-hyprland
     ];
+    wlr.enable = true;
   };
 
   i18n.defaultLocale = "en_GB.UTF-8";
