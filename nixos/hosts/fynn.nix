@@ -41,6 +41,7 @@
     hostName = "fynn";
     networkmanager.enable = true;
     resolvconf.dnsExtensionMechanism = false;
+    wireless.enableHardening = false;
   };
 
   time.timeZone = "America/Los_Angeles";
