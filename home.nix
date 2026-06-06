@@ -25,7 +25,6 @@ in
 {
   imports = [
     inputs.dms.homeModules.default
-    inputs.niri.homeModules.niri
   ];
 
   catppuccin = {
@@ -94,6 +93,7 @@ in
     sessionVariables = {
       BAT_THEME = "Catppuccin Mocha";
       BIOME_BINARY = "${pkgs.biome}/bin/biome";
+      DMS_HIDE_TRAYIDS = "nm-applet,blueman";
       DOOMDIR = "${config.home.homeDirectory}/.config/home-manager/src/doom";
       EDITOR = "nvim";
       MOZ_USE_XINPUT2 = "1";
@@ -172,10 +172,6 @@ in
       package = pkgs-unstable.neovim-unwrapped;
       extraLuaPackages = ps: [ ps.magick ];
       extraPackages = [ pkgs.imagemagick ];
-    };
-    niri = {
-      enable = true;
-      package = pkgs.niri;
     };
     obs-studio.enable = true;
     rofi = {
@@ -304,11 +300,11 @@ in
     DOOMDIR = "${config.home.homeDirectory}/.config/home-manager/src/doom";
   };
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    extraConfig = builtins.readFile ./src/hypr/hyprland.conf;
-    xwayland.enable = true;
-  };
+  # wayland.windowManager.hyprland = {
+  #   enable = true;
+  #   extraConfig = builtins.readFile ./src/hypr/hyprland.conf;
+  #   xwayland.enable = true;
+  # };
 
   fonts.fontconfig.enable = true;
 

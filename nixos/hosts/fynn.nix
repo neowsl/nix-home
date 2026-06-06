@@ -79,14 +79,11 @@
       };
     };
     blueman.enable = true;
-    # sometimes stops working
-    # fprintd = {
-    #   enable = true;
-    #   tod = {
-    #     enable = true;
-    #     driver = pkgs.libfprint-2-tod1-goodix;
-    #   };
-    # };
+    displayManager.dms-greeter = {
+      enable = true;
+      compositor.name = "niri";
+      configHome = "/home/neo";
+    };
     gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
     illum.enable = true;
@@ -174,7 +171,6 @@
     udisks2.enable = true;
     upower.enable = true;
     xserver = {
-      displayManager.startx.enable = true;
       enable = true;
       xkb = {
         options = "caps:swapescape";
@@ -210,32 +206,15 @@
   programs = {
     dconf.enable = true;
     fish.enable = true;
+    niri.enable = true;
   };
 
+  systemd.user.services.niri.enableDefaultPath = false;
   # systemd.sleep.extraConfig = ''
   #   HibernateDelaySec=30m
   # '';
 
   gtk.iconCache.enable = true;
-
-  xdg.portal = {
-    enable = true;
-    config = {
-      common = {
-        default = [ "gtk" ];
-      };
-      niri = {
-        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
-      };
-    };
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gnome
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-hyprland
-    ];
-    wlr.enable = true;
-  };
 
   i18n.defaultLocale = "en_GB.UTF-8";
 }

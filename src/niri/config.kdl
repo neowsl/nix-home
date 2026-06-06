@@ -34,7 +34,6 @@ layout {
 }
 
 spawn-at-startup "dms" "run"
-spawn-at-startup "emacs" "--daemon"
 
 window-rule {
     geometry-corner-radius 10
