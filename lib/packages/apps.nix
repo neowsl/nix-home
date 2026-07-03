@@ -28,9 +28,9 @@ with pkgs;
   (thunar.override {
     thunarPlugins = [
       file-roller
-      xfce.thunar-archive-plugin
-      xfce.thunar-dropbox-plugin
-      xfce.tumbler
+      thunar-archive-plugin
+      thunar-dropbox-plugin
+      tumbler
     ];
   })
   yazi

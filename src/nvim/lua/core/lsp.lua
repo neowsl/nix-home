@@ -20,6 +20,7 @@ local servers = {
 	"ts_ls",
 	-- "verible",
 	"yamlls",
+	"zls",
 }
 
 vim.lsp.config("hls", {

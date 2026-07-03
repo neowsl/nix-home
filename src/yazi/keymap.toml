@@ -1,3 +1,3 @@
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = "<Esc>"
 run = "quit"

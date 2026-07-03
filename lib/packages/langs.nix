@@ -36,7 +36,7 @@ with pkgs;
   lua
   lua-language-server
   nil
-  nixfmt-rfc-style
+  nixfmt
   nodejs
   odin
   ols
@@ -56,4 +56,6 @@ with pkgs;
   typstyle
   vscode-langservers-extracted
   yaml-language-server
+  zig
+  zls
 ]
