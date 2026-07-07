@@ -54,7 +54,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     Mod+C      { close-window; }
-    Mod+Return { spawn "kitty"; }
+    Mod+Return { spawn "ghostty"; }
     Mod+E      { spawn "emacsclient" "-c"; }
     Mod+B      { spawn "zen"; }
     Mod+T      { spawn "thunar"; }

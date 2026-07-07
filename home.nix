@@ -149,6 +149,7 @@ in
         direnv hook fish | source
       '';
     };
+    ghostty.enable = true;
     git = {
       enable = true;
       settings = {
