@@ -31,6 +31,7 @@ in
     enable = true;
     accent = "lavender";
 
+    ghostty.enable = false;
     waybar.enable = false;
   };
 

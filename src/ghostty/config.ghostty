@@ -1,9 +1,9 @@
 font-family = "Cascadia Code NF"
 font-feature = ss01
+theme = Catppuccin Mocha
 background-opacity = 0.95
 window-padding-x = 10
 window-padding-y = 2,4
 confirm-close-surface = false
 quit-after-last-window-closed = false
-initial-window = false
 gtk-single-instance = true

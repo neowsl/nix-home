@@ -33,7 +33,8 @@ layout {
     }
 }
 
-spawn-at-startup "dms" "run"
+spawn-sh-at-startup "dms run"
+spawn-sh-at-startup "ghostty --initial-window=false"
 
 window-rule {
     geometry-corner-radius 10
