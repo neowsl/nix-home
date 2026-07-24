@@ -11,6 +11,7 @@ with pkgs;
   just
   lazygit
   neovide
+  opencode
   postman
   sccache
   scrcpy
