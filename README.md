@@ -2,8 +2,6 @@
 
 > [NixOS](https://nixos.org) & [Home Manager](https://nix-community.github.io/home-manager) configuration files
 
-![image](https://github.com/user-attachments/assets/e27efc0a-7b33-48e7-b991-cad44bf03ffb)
-
 This repository contains my development environment that I use for school and work.
 Feel free to copy my dotfiles or leave suggestions!
 
@@ -20,10 +18,8 @@ I use [lazy.nvim](https://github.com/folke/lazy.nvim) to manage plugins.
 
 <details><summary>Awesome plugins ✨</summary>
 
-- `mason.nvim`: LSP manager
 - `nvim-treesitter`: Improved syntax highlighting
 - `nvim-cmp`: Code completion engine
-- `copilot.lua`: GitHub Copilot for faster coding
 - `lspsaga.nvim`: Improved LSP commands
 - `conform.nvim` & `nvim-lint`: Formatting and linting
 - `telescope.nvim`: Fast fuzzy finder (No directory trees here!)
@@ -35,16 +31,16 @@ I use [lazy.nvim](https://github.com/folke/lazy.nvim) to manage plugins.
 
 </details>
 
-## 💾 Terminal • [kitty](https://sw.kovidgoyal.net/kitty)
+## 💾 Terminal • [Ghostty](https://ghostty.org)
 
 I use [fish](https://fishshell.com) to make using the CLI easier.
 [Starship](https://starship.rs) gives a clean look to the prompt!
 
-## 🪟 Tiling Compositor • [Hyprland](https://hyprland.org)
+## 🪟 Tiling Compositor • [niri](https://niri-wm.github.io/niri/index.html)
 
 Tiling windows means I can navigate quickly and effortlessly to what I need.
 I recommend compiling a list of keybinds that you find easy to remember and use.
-I previously used [XMonad](https://xmonad.org); its configs are under the `archive/xmonad` branch.
+I previously used [XMonad](https://xmonad.org) and [Hyprland](https://hypr.land/).
 
 ## 🛠️ Managing dotfiles • [Home Manager](https://nix-community.github.io/home-manager)
 
