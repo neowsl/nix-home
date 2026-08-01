@@ -5,4 +5,6 @@
     htop
     tmux
   ];
+
+  home.file.".xinitrc".text = "exec icewm";
 }

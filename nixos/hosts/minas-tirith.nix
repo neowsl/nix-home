@@ -61,8 +61,8 @@
     };
     cloudflared = {
       enable = true;
-      tunnels."<UUID>" = {
-        credentialsFile = "/etc/cloudflared/<UUID>.json";
+      tunnels."876e057d-dd25-4e7a-89c9-f242719b4a6a" = {
+        credentialsFile = "/etc/cloudflared/876e057d-dd25-4e7a-89c9-f242719b4a6a.json";
         default = "http_status:404";
         ingress = {
           "minas-tirith.nealwang.dev" = "ssh://localhost:22";
@@ -78,6 +78,11 @@
         PermitRootLogin = "prohibit-password";
         MaxAuthTries = 3;
       };
+    };
+    xserver = {
+      enable = true;
+      displayManager.startx.enable = true;
+      windowManager.icewm.enable = true;
     };
   };
 
