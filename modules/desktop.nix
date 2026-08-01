@@ -39,6 +39,7 @@ in
     ]
     ++ (with pkgs; [
       android-file-transfer
+      cloudflared
       godot
       grim
       grimblast
@@ -102,6 +103,21 @@ in
         modi = "run,drun";
         show-icons = true;
         sidebar-mode = true;
+      };
+    };
+    ssh = {
+      enable = true;
+      matchBlocks = {
+        attu = {
+          hostname = "attu.cs.washington.edu";
+          user = "nealwang";
+          controlMaster = "auto";
+          controlPath = "~/.ssh/ans-%r@%h:%p";
+          controlPersist = "10m";
+        };
+        "minas-tirith.nealwang.dev" = {
+          proxyCommand = "cloudflared access ssh --hostname %h";
+        };
       };
     };
     vscodium.enable = true;
