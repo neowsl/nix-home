@@ -61,12 +61,12 @@
     };
     cloudflared = {
       enable = true;
-      tunnels."876e057d-dd25-4e7a-89c9-f242719b4a6a" = {
-        credentialsFile = "/etc/cloudflared/876e057d-dd25-4e7a-89c9-f242719b4a6a.json";
+      tunnels."876e057d-dd25-4e7a-89c8-f242719b4a6a" = {
+        credentialsFile = "/etc/cloudflared/876e057d-dd25-4e7a-89c8-f242719b4a6a.json";
         default = "http_status:404";
         ingress = {
           "minas-tirith.nealwang.dev" = "ssh://localhost:22";
-          "adguard.minas-tirith.nealwang.dev" = "http://localhost:3000";
+          "adguard.nealwang.dev" = "http://localhost:3000";
         };
       };
     };
