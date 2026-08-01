@@ -74,9 +74,10 @@
     openssh = {
       enable = true;
       settings = {
+        MaxAuthTries = 3;
         PasswordAuthentication = false;
         PermitRootLogin = "prohibit-password";
-        MaxAuthTries = 3;
+        TrustedUserCAKeys = "/etc/ssh/cloudflare-ca.pub";
       };
     };
     xserver = {
