@@ -37,7 +37,6 @@ in
           "hypr"
           "neovide"
           "niri"
-          "rofi"
         ];
         configDirs = builtins.filter (
           name: srcContents.${name} == "directory" && !(builtins.elem name ([ ".ghc" ] ++ guiDirs))

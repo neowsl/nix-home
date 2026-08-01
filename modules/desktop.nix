@@ -14,7 +14,6 @@ let
     "hypr"
     "neovide"
     "niri"
-    "rofi"
   ];
   mkConfig = name: {
     source = ../src + "/${name}";
