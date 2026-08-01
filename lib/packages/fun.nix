@@ -9,7 +9,6 @@ with pkgs;
   heroic
   # nix-gaming.packages.${pkgs.hostPlatform.system}.wine-ge
   oneko
-  pfetch
   pipes
   pkgs-unstable.prismlauncher
   tty-clock

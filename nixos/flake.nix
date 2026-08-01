@@ -63,11 +63,11 @@
         ];
       };
 
-      nixosConfigurations.edoras = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.minas-tirith = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
         modules = [
-          ./hosts/edoras.nix
+          ./hosts/minas-tirith.nix
         ];
       };
     };

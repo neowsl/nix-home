@@ -48,16 +48,36 @@
         inherit system;
         config.allowUnfree = true;
       };
+
+      pkgsets = import ./lib/packages { inherit pkgs pkgs-unstable; };
+
+      mkHome =
+        hostModules:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+
+          extraSpecialArgs = { inherit inputs pkgs-unstable pkgsets; };
+
+          modules = [
+            ./home.nix
+            catppuccin.homeModules.catppuccin
+          ]
+          ++ hostModules;
+        };
     in
     {
-      homeConfigurations.neo = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-
-        extraSpecialArgs = { inherit inputs pkgs-unstable; };
-
-        modules = [
-          ./home.nix
-          catppuccin.homeModules.catppuccin
+      homeConfigurations = {
+        rivendell = mkHome [
+          ./hosts/rivendell.nix
+          ./modules/desktop.nix
+        ];
+        minas-tirith = mkHome [
+          ./hosts/minas-tirith.nix
+          ./modules/server.nix
+        ];
+        osgiliath = mkHome [
+          ./hosts/osgiliath.nix
+          ./modules/wsl.nix
         ];
       };
     };

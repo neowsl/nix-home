@@ -11,6 +11,7 @@ with pkgs;
   nmap
   openssl
   p7zip
+  pfetch
   ripgrep
   tree
   unzip

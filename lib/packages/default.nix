@@ -9,4 +9,14 @@ let
   langs = import ./langs.nix { inherit pkgs pkgs-unstable; };
   system = import ./system.nix { inherit pkgs pkgs-unstable; };
 in
-apps ++ cli ++ dev ++ fonts ++ fun ++ langs ++ system
+{
+  inherit
+    apps
+    cli
+    dev
+    fonts
+    fun
+    langs
+    system
+    ;
+}

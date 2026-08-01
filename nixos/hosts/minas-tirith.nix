@@ -24,7 +24,7 @@
   };
 
   networking = {
-    hostName = "edoras";
+    hostName = "minas-tirith";
     firewall = {
       enable = true;
       # allowedTCPPorts = [ ];

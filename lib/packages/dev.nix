@@ -2,24 +2,18 @@
 
 # general development tools
 # language-specific tools go in `./langs.nix`
+# GUI-only tools live in `modules/desktop.nix`
 with pkgs;
 [
   cmake
   emacs-pgtk
   gnumake
-  godot
   just
   lazygit
-  neovide
   opencode
-  postman
   sccache
-  scrcpy
-  showmethekey
   tree-sitter
   uv
-  uxplay
   vim-full
   websocat
-  wl-clipboard
 ]

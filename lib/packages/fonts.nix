@@ -11,4 +11,5 @@ with pkgs;
   roboto
   ubuntu-classic
   victor-mono
+  (callPackage ../derivations/patrick-hand.nix { })
 ]
