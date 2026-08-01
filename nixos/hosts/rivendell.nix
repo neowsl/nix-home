@@ -16,6 +16,7 @@
   ];
 
   boot = {
+    lanzaboote.settings.reboot-for-bitlocker = true;
     loader = {
       efi.canTouchEfiVariables = true;
       grub.enable = lib.mkForce false;
@@ -38,7 +39,7 @@
         7011
       ];
     };
-    hostName = "fynn";
+    hostName = "rivendell";
     networkmanager.enable = true;
     resolvconf.dnsExtensionMechanism = false;
     wireless.enableHardening = false;

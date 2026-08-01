@@ -19,7 +19,6 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       lanzaboote,
       flake-utils,
@@ -61,6 +60,14 @@
               };
             }
           )
+        ];
+      };
+
+      nixosConfigurations.edoras = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+
+        modules = [
+          ./hosts/edoras.nix
         ];
       };
     };
