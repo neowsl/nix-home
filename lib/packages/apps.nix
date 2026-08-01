@@ -33,6 +33,5 @@ with pkgs;
       tumbler
     ];
   })
-  yazi
   zotero
 ]

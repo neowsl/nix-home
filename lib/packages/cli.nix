@@ -17,5 +17,6 @@ with pkgs;
   unzip
   usbutils
   xz
+  yazi
   zip
 ]
