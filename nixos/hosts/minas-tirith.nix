@@ -27,8 +27,8 @@
     hostName = "minas-tirith";
     firewall = {
       enable = true;
-      # allowedTCPPorts = [ ];
-      # allowedUDPPorts = [ ];
+      allowedTCPPorts = [ 53 ];
+      allowedUDPPorts = [ 53 ];
     };
     networkmanager.enable = true;
   };
@@ -47,9 +47,38 @@
   };
 
   services = {
-    openssh.enable = true;
+    adguardhome = {
+      enable = true;
+      mutableSettings = true;
+      settings = {
+        dns = {
+          upstream_dns = [
+            "https://dns.quad9.net/dns-query"
+            "https://cloudflare-dns.com/dns-query"
+          ];
+        };
+      };
+    };
+    cloudflared = {
+      enable = true;
+      tunnels."<UUID>" = {
+        credentialsFile = "/etc/cloudflared/<UUID>.json";
+        default = "http_status:404";
+        ingress = {
+          "minas-tirith.nealwang.dev" = "ssh://localhost:22";
+          "adguard.minas-tirith.nealwang.dev" = "http://localhost:3000";
+        };
+      };
+    };
     fstrim.enable = true;
-    # tailscale.enable = true;
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "prohibit-password";
+        MaxAuthTries = 3;
+      };
+    };
   };
 
   hardware = {
