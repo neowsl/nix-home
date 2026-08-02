@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   ...
 }:
 
@@ -118,7 +119,7 @@
       restartIfChanged = false; # plain switches never touch the tunnel
       after = [ "adguardhome.service" ]; # don't start until DNS is up
       serviceConfig = {
-        Restart = "always";
+        Restart = lib.mkForce "always";
         RestartSec = 5;
         StartLimitIntervalSec = 0; # never give up permanently
       };
