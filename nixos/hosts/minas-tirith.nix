@@ -120,6 +120,16 @@
     };
   };
 
+  systemd.services."cloudflared-tunnel-876e057d-dd25-4e7a-89c8-f242719b4a6a" = {
+    restartIfChanged = false; # plain switches never touch the tunnel
+    after = [ "adguardhome.service" ]; # don't start until DNS is up
+    serviceConfig = {
+      Restart = "always";
+      RestartSec = 5;
+      StartLimitIntervalSec = 0; # never give up permanently
+    };
+  };
+
   hardware = {
     enableAllFirmware = true;
     graphics.enable = true;
