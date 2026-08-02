@@ -65,7 +65,6 @@
         credentialsFile = "/etc/cloudflared/876e057d-dd25-4e7a-89c8-f242719b4a6a.json";
         default = "http_status:404";
         ingress = {
-          "minas-tirith.nealwang.dev" = "ssh://localhost:22";
           "git.nealwang.dev" = "http://localhost:3001";
           "adguard.nealwang.dev" = "http://localhost:3000";
         };
@@ -91,10 +90,11 @@
     openssh = {
       enable = true;
       settings = {
+        PubkeyAuthentication = true;
+        MaxAuthTries = 3;
         PasswordAuthentication = false;
         PermitRootLogin = "prohibit-password";
         TrustedUserCAKeys = "/etc/ssh/cloudflare-ca.pub";
-        MaxAuthTries = 3;
         Macs = [
           "hmac-sha2-512-etm@openssh.com"
           "hmac-sha2-256-etm@openssh.com"
