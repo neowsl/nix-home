@@ -43,6 +43,7 @@
         "wheel"
         "networkmanager"
       ];
+      linger = true; # allow systemd services to linger
     };
   };
 
@@ -67,6 +68,7 @@
         ingress = {
           "git.nealwang.dev" = "http://localhost:3001";
           "adguard.nealwang.dev" = "http://localhost:3000";
+          "maelstrom.nealwang.dev" = "http://localhost:4000";
         };
       };
     };
@@ -87,6 +89,13 @@
       };
     };
     fstrim.enable = true;
+    gitea-actions-runner.instances.default = {
+      enable = true;
+      name = "gimli";
+      url = "https://git.nealwang.dev";
+      tokenFile = "/etc/nixos/secrets/forgejo-runner-token";
+      labels = [ "mordor:docker://node:22-alpine" ];
+    };
     openssh = {
       enable = true;
       settings = {
@@ -114,6 +123,19 @@
   hardware = {
     enableAllFirmware = true;
     graphics.enable = true;
+  };
+
+  virtualisation = {
+    docker.enable = true;
+    oci-containers = {
+      backend = "docker";
+      containers.git-pages = {
+        # static sites all on port 4000
+        image = "codeberg.org/git-pages/git-pages:latest";
+        ports = [ "127.0.0.1:4000:3000" ];
+        volumes = [ "/var/lib/git-pages/data:/app/data" ];
+      };
+    };
   };
 
   programs = {
