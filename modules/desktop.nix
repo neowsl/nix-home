@@ -107,16 +107,19 @@ in
     };
     ssh = {
       enable = true;
-      matchBlocks = {
-        attu = {
-          hostname = "attu.cs.washington.edu";
-          user = "nealwang";
-          controlMaster = "auto";
-          controlPath = "~/.ssh/ans-%r@%h:%p";
-          controlPersist = "10m";
+      settings = {
+        "minas-tirith" = {
+          HostName = "192.168.1.12";
+          User = "neo";
         };
-        "minas-tirith.nealwang.dev" = {
-          proxyCommand = "cloudflared access ssh --hostname %h";
+
+        "attu" = {
+          HostName = "attu.cs.washington.edu";
+          User = "neo";
+
+          ControlMaster = "auto";
+          ControlPath = "~/.ssh/ans-%r@%h:%p";
+          ControlPersist = "10m";
         };
       };
     };

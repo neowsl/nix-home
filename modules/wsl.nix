@@ -2,11 +2,26 @@
 
 {
   home.packages = with pkgs; [
-    cloudflared
+    cloudflare-warp
     wslu
   ];
 
-  programs.ssh.matchBlocks."minas-tirith.nealwang.dev" = {
-    proxyCommand = "cloudflared access ssh --hostname %h";
+  programs.ssh = {
+    enable = true;
+    settings = {
+      "minas-tirith" = {
+        HostName = "192.168.1.12";
+        User = "neo";
+      };
+
+      "attu" = {
+        HostName = "attu.cs.washington.edu";
+        User = "neo";
+
+        ControlMaster = "auto";
+        ControlPath = "~/.ssh/ans-%r@%h:%p";
+        ControlPersist = "10m";
+      };
+    };
   };
 }

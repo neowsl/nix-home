@@ -12,17 +12,18 @@ one-time bootstrap steps.
 
 ```
 laptops (rivendell, osgiliath)
-   │  ssh minas-tirith.nealwang.dev  ── cloudflared access ssh (tunnel proxy)
+   │  ssh neo@192.168.1.12  ── WARP tunnel ── Cloudflare Zero Trust (Infra Access)
+   │  └─ short-lived SSH cert → minas-tirith sshd :22 (TrustedUserCAKeys)
    ▼
-minas-tirith (server, 192.168.1.9, WiFi wlp0s20f0u4, NixOS)
+minas-tirith (server, 192.168.1.12, WiFi wlp0s20f0u4, NixOS)
    ├── sshd :22            (hardened, TrustedUserCAKeys = Cloudflare CA)
    ├── cloudflared tunnel  876e057d-dd25-4e7a-89c8-f242719b4a6a
-   │     minas-tirith.nealwang.dev → ssh://localhost:22
+   │     minas-tirith.nealwang.dev → ssh://localhost:22  (browser terminal / legacy proxy)
    │     adguard.nealwang.dev      → http://localhost:3000
    ├── AdGuard Home :53/:3000      (Quad9 + Cloudflare DoH upstreams)
    └── icewm via startx             (TV mode, no display manager)
 LAN clients
-   └── router DHCP → DNS 192.168.1.9 (AdGuard) → LAN-wide ad-blocking
+   └── router DHCP → DNS 192.168.1.12 (AdGuard) → LAN-wide ad-blocking
 ```
 
 ## Key identifiers
@@ -35,7 +36,7 @@ LAN clients
 | Zero Trust org | `icy-feather-00e9.cloudflareaccess.com` |
 | Access app (SSH) | self-hosted app for `minas-tirith.nealwang.dev`, aud `9ec096866dd8cd1eb67b665daf305ab475e4dc5bbd563f3e4b1fec39c7fc72af` |
 | SSH CA principal | `open-ssh-ca@cloudflareaccess.org` |
-| Server LAN IP | `192.168.1.9` (router DHCP reservation) |
+| Server LAN IP | `192.168.1.12` (router DHCP reservation) |
 
 ## Cloudflare dashboard actions (manual, one-time)
 
@@ -70,6 +71,9 @@ LAN clients
 - `cert.pem` — account cert from `cloudflared tunnel login` (only on the machine
   that manages the tunnel; currently NOT on the laptop).
 
+> The laptop files above are from the legacy Access/cloudflared flow — the WARP
+> Infrastructure Access setup below needs none of them.
+
 ## Server bootstrap (imperative)
 
 1. Copy tunnel JSON + CA pub onto the server:
@@ -88,9 +92,10 @@ LAN clients
 - Open `https://minas-tirith.nealwang.dev` → browser-based SSH terminal.
 - At the auth screen, **paste your SSH public key** (`cat ~/.ssh/id_ed25519.pub`).
   Cloudflare never sees the private key.
-- **Do NOT follow the "short-lived certificates" link** — that's Access-for-
-  Infrastructure (WARP client on every device); we're using browser rendering +
-  the account CA instead.
+- **Do NOT follow the "short-lived certificates" link** — that's the CLI
+  Infrastructure-Access flow (WARP + short-lived certs, see "Client-side SSH"
+  above). For the browser terminal we keep using browser rendering + the account
+  CA instead.
 - Username on the server = email-prefix of the Access identity
   (`nealwang.sh@protonmail.com` → user `nealwang.sh`).
   - **TODO (pending):** `nealwang.sh` does not exist on the server yet
@@ -100,9 +105,9 @@ LAN clients
 
 ## Router (manual, external)
 
-- **DHCP reservation**: server → `192.168.1.9` (static lease).
+- **DHCP reservation**: server → `192.168.1.12` (static lease).
 - **DNS**: Internet Setup → DNS → "Use These DNS Servers":
-  primary `192.168.1.9`, secondary `1.1.1.1`.
+  primary `192.168.1.12`, secondary `1.1.1.1`.
   The router forwards all client queries to AdGuard, so filtering works LAN-wide.
 - YouTube ads cannot be blocked via DNS (same domains as the content) — use
   YouTube Premium or a content blocker.
@@ -126,12 +131,80 @@ LAN clients
 dig doubleclick.net @192.168.1.1      # 0.0.0.0  (router forwards to AdGuard)
 dig +short adguard.nealwang.dev       # Cloudflare edge IPs
 curl -sI https://adguard.nealwang.dev # 200
-ssh minas-tirith.nealwang.dev hostname # minas-tirith  (plain ssh via managed config)
-ssh neo@minas-tirith.nealwang.dev 'sudo sshd -T | grep -i macs'
+ssh minas-tirith hostname # minas-tirith  (direct via WARP Infra Access)
+ssh minas-tirith 'sudo sshd -T | grep -i macs'
 systemctl is-active cloudflared-tunnel-876e057d-dd25-4e7a-89c8-f242719b4a6a.service
 ```
 
-## Client-side (rivendell / osgiliath)
+## Client-side SSH: Cloudflare Infrastructure Access via WARP (preferred)
+
+The preferred SSH path to `minas-tirith` is **Cloudflare Infrastructure Access +
+WARP** (enrolled device), not the legacy `cloudflared access ssh` proxy flow below.
+
+```
+laptop
+  └─ ssh neo@192.168.1.12 ──(WARP tunnel)──► Cloudflare Zero Trust
+     Infrastructure Access policy issues a short-lived SSH certificate
+     ──► minas-tirith sshd :22  (TrustedUserCAKeys validates the Cloudflare CA)
+     ──► neo shell
+```
+
+The client does **not** need:
+- a static SSH key installed on the server,
+- `ProxyCommand = cloudflared access ssh ...`,
+- `~/.cloudflared/cert.pem`,
+- per-device `authorized_keys` on `minas-tirith`.
+
+The only client requirements: **WARP installed, enrolled in the right Zero Trust
+org, connected**, and SSH pointed straight at the private target.
+
+**WARP enrollment** (new device):
+```sh
+warp-cli registration new
+warp-cli teams-enroll nealwang
+warp-cli connect
+warp-cli status        # Status: Connected / Organization: nealwang
+```
+The device must authenticate as an identity the Infrastructure Access policy allows.
+
+**SSH config** — connect directly to the private address:
+```nix
+programs.ssh.settings = {
+  "minas-tirith" = {
+    HostName = "192.168.1.12";
+    User = "neo";
+  };
+};
+```
+Do **not** add `ProxyCommand = "${pkgs.cloudflared}/bin/cloudflared access ssh --hostname %h"` — that belongs to the separate Access → Applications → Self-hosted SSH flow. Likewise `/cdn-cgi/access/cli` tokens and `cloudflared access login/ssh` are from the browser/self-hosted flow and do **not** mean Infrastructure Access is working.
+
+**Gotcha — WARP split tunnels:** if the target IP is excluded from the tunnel
+(e.g. `192.168.0.0/16` in Exclude mode), traffic goes straight to the LAN and
+bypasses Infrastructure Access. Symptoms: `ping` works, sshd answers, but
+`ssh -vvv` only shows `Offering public key: ~/.ssh/id_ed25519` (no short-lived
+cert). Fix: remove the exclusion from the Zero Trust device profile, then
+`warp-cli disconnect` / `warp-cli connect`; verify with `ip route get 192.168.1.12`.
+
+**Debugging checklist** (SSH fails):
+1. `warp-cli status` → `Status: Connected`.
+2. `warp-cli settings` → no `192.168.0.0/16` exclusion.
+3. `ssh -vvv minas-tirith` → should offer a cert (`Offering ED25519-CERT public key`
+   / `...-cert.pub`); if only `id_ed25519` appears, the connection is not going
+   through Infrastructure Access.
+4. On the server: `sudo sshd -T | grep trustedusercakeys` → `trustedusercakeys /etc/ssh/cloudflare-ca.pub`.
+
+**Host key changes:** switching between direct LAN, Infrastructure Access, and
+tunnel-based SSH can trigger a host-key warning. If the fingerprint is verified,
+remove the stale entry and reconnect: `ssh-keygen -R 192.168.1.12`.
+
+## Legacy: client-side via cloudflared Access SSH ProxyCommand (rivendell / osgiliath)
+
+> **Legacy flow** — superseded by the Infrastructure Access + WARP setup above.
+> This documents the older path: clients install `cloudflared`, run
+> `cloudflared access login`, and route SSH through
+> `ProxyCommand = ... cloudflared access ssh --hostname %h`, with per-device
+> keys authorized on the server. The declarative config has since moved to the
+> direct `minas-tirith` → `192.168.1.12` block (see above).
 
 - Declarative in home-manager: `modules/desktop.nix` (rivendell) and
   `modules/wsl.nix` (osgiliath) install `cloudflared` and manage `~/.ssh/config`

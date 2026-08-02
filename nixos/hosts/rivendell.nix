@@ -80,6 +80,10 @@
       };
     };
     blueman.enable = true;
+    cloudflare-warp = {
+      enable = true;
+      openFirewall = true;
+    };
     displayManager.dms-greeter = {
       enable = true;
       compositor.name = "niri";
