@@ -89,13 +89,6 @@
       };
     };
     fstrim.enable = true;
-    gitea-actions-runner.instances.default = {
-      enable = true;
-      name = "gimli";
-      url = "https://git.nealwang.dev";
-      tokenFile = "/etc/nixos/secrets/forgejo-runner-token";
-      labels = [ "mordor:docker://node:22-alpine" ];
-    };
     openssh = {
       enable = true;
       settings = {
@@ -120,13 +113,35 @@
     };
   };
 
-  systemd.services."cloudflared-tunnel-876e057d-dd25-4e7a-89c8-f242719b4a6a" = {
-    restartIfChanged = false; # plain switches never touch the tunnel
-    after = [ "adguardhome.service" ]; # don't start until DNS is up
-    serviceConfig = {
-      Restart = "always";
-      RestartSec = 5;
-      StartLimitIntervalSec = 0; # never give up permanently
+  systemd.services = {
+    "cloudflared-tunnel-876e057d-dd25-4e7a-89c8-f242719b4a6a" = {
+      restartIfChanged = false; # plain switches never touch the tunnel
+      after = [ "adguardhome.service" ]; # don't start until DNS is up
+      serviceConfig = {
+        Restart = "always";
+        RestartSec = 5;
+        StartLimitIntervalSec = 0; # never give up permanently
+      };
+    };
+    forgejo-runner = {
+      description = "Forgejo Actions Runner (gimli)";
+      wants = [
+        "network-online.target"
+        "docker.service"
+      ];
+      after = [
+        "network-online.target"
+        "docker.service"
+      ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        ExecStart = "${pkgs.forgejo-runner}/bin/forgejo-runner daemon --config /etc/forgejo-runner/config.yaml";
+        User = "root";
+        Restart = "on-failure";
+        RestartSec = 2;
+        StateDirectory = "forgejo-runner";
+        WorkingDirectory = "/var/lib/forgejo-runner";
+      };
     };
   };
 
