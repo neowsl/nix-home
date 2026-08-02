@@ -66,18 +66,35 @@
         default = "http_status:404";
         ingress = {
           "minas-tirith.nealwang.dev" = "ssh://localhost:22";
+          "git.nealwang.dev" = "http://localhost:3001";
           "adguard.nealwang.dev" = "http://localhost:3000";
         };
+      };
+    };
+    forgejo = {
+      enable = true;
+      database.type = "postgres";
+      lfs.enable = true;
+      dump.enable = true;
+      settings = {
+        server = {
+          DOMAIN = "git.nealwang.dev";
+          ROOT_URL = "https://git.nealwang.dev/";
+          HTTP_PORT = 3001;
+          DISABLE_SSH = true;
+        };
+        service.DISABLE_REGISTRATION = true;
+        session.COOKIE_SECURE = true;
       };
     };
     fstrim.enable = true;
     openssh = {
       enable = true;
       settings = {
-        MaxAuthTries = 3;
         PasswordAuthentication = false;
         PermitRootLogin = "prohibit-password";
         TrustedUserCAKeys = "/etc/ssh/cloudflare-ca.pub";
+        MaxAuthTries = 3;
         Macs = [
           "hmac-sha2-512-etm@openssh.com"
           "hmac-sha2-256-etm@openssh.com"
