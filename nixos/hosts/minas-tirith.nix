@@ -19,18 +19,21 @@
     ];
   };
 
-  boot.loader = {
-    efi.canTouchEfiVariables = true;
-    systemd-boot.enable = true;
+  boot = {
+    kernel.sysctl = {
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
+      "net.ipv6.conf.all.accept_ra" = 2;
+    };
+    loader = {
+      efi.canTouchEfiVariables = true;
+      systemd-boot.enable = true;
+    };
   };
 
   networking = {
     hostName = "minas-tirith";
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ 53 ];
-      allowedUDPPorts = [ 53 ];
-    };
+    firewall.enable = true;
     networkmanager.enable = true;
   };
 
@@ -49,18 +52,6 @@
   };
 
   services = {
-    adguardhome = {
-      enable = true;
-      mutableSettings = true;
-      settings = {
-        dns = {
-          upstream_dns = [
-            "https://dns.quad9.net/dns-query"
-            "https://cloudflare-dns.com/dns-query"
-          ];
-        };
-      };
-    };
     cloudflare-warp = {
       enable = true;
       openFirewall = true;
@@ -72,7 +63,6 @@
         default = "http_status:404";
         ingress = {
           "git.nealwang.dev" = "http://localhost:3001";
-          "adguard.nealwang.dev" = "http://localhost:3000";
           "maelstrom.nealwang.dev" = "http://localhost:4000";
         };
       };
@@ -121,7 +111,6 @@
   systemd.services = {
     "cloudflared-tunnel-876e057d-dd25-4e7a-89c8-f242719b4a6a" = {
       restartIfChanged = false; # plain switches never touch the tunnel
-      after = [ "adguardhome.service" ]; # don't start until DNS is up
       serviceConfig = {
         Restart = lib.mkForce "always";
         RestartSec = 5;
