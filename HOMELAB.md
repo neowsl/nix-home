@@ -11,19 +11,19 @@ one-time bootstrap steps.
 ## Architecture
 
 ```
-laptops (rivendell, osgiliath)
-   │  ssh neo@192.168.1.12  ── WARP tunnel ── Cloudflare Zero Trust (Infra Access)
-   │  └─ short-lived SSH cert → minas-tirith sshd :22 (TrustedUserCAKeys)
+laptops (rivendell, osgiliath) — Cloudflare Mesh clients (WARP)
+   │  ssh neo@100.96.0.3  ── Mesh ──► Cloudflare Zero Trust (Access for Infrastructure)
+   │     └─ Cloudflare SSH proxy issues short-lived cert → minas-tirith sshd :22
+   │        (no SSH key or authorized_keys on either side)
+   │     (at home only: ssh neo@192.168.1.12 via legacy WARP Infra Access)
    ▼
-minas-tirith (server, 192.168.1.12, WiFi wlp0s20f0u4, NixOS)
+minas-tirith (server, 192.168.1.12, WiFi wlp0s20f0u4, NixOS) — Mesh node (Mesh IP 100.96.0.3)
    ├── sshd :22            (hardened, TrustedUserCAKeys = Cloudflare CA)
+   ├── cloudflare-warp     (headless Mesh node, Traffic+DNS mode, owns :53)
    ├── cloudflared tunnel  876e057d-dd25-4e7a-89c8-f242719b4a6a
-   │     minas-tirith.nealwang.dev → ssh://localhost:22  (browser terminal / legacy proxy)
-   │     adguard.nealwang.dev      → http://localhost:3000
-   ├── AdGuard Home :53/:3000      (Quad9 + Cloudflare DoH upstreams)
+   │     git.nealwang.dev      → http://localhost:3001
+   │     maelstrom.nealwang.dev → http://localhost:4000
    └── icewm via startx             (TV mode, no display manager)
-LAN clients
-   └── router DHCP → DNS 192.168.1.12 (AdGuard) → LAN-wide ad-blocking
 ```
 
 ## Key identifiers
@@ -37,6 +37,8 @@ LAN clients
 | Access app (SSH) | self-hosted app for `minas-tirith.nealwang.dev`, aud `9ec096866dd8cd1eb67b665daf305ab475e4dc5bbd563f3e4b1fec39c7fc72af` |
 | SSH CA principal | `open-ssh-ca@cloudflareaccess.org` |
 | Server LAN IP | `192.168.1.12` (router DHCP reservation) |
+| Mesh node IP | `100.96.0.3` (minas-tirith, Cloudflare Mesh) |
+| Access-for-Infra target | hostname `minas-tirith` → IP `100.96.0.3`, port 22 |
 
 ## Cloudflare dashboard actions (manual, one-time)
 
@@ -55,6 +57,18 @@ LAN clients
 4. **Access → Applications**: self-hosted app, type SSH, hostname
    `minas-tirith.nealwang.dev` (aud above). This powers the browser terminal and
    `cloudflared access ssh`.
+5. **Mesh node** (Networking → Mesh): created a node for `minas-tirith`. On the
+   server: `sudo warp-cli connector new <TOKEN> && sudo warp-cli connect` (token is
+   shown once in the wizard but re-fetchable from the node detail page; the
+   registration **survives reboots**). Declared via `services.cloudflare-warp`.
+6. **Client split tunnels** (Zero Trust → Settings → WARP → Device profiles): the
+   client profile runs in **Exclude mode** — **remove `100.64.0.0/10`** from the
+   exclude list so Mesh IPs route through Cloudflare (see Gotchas).
+7. **Access → Infrastructure**: added a **target** for the server
+   (`minas-tirith` → `100.96.0.3`, port 22) and an SSH infrastructure application
+   policy allowing the user as `neo`. Cloudflare's SSH proxy authenticates the WARP
+   identity and presents a short-lived cert to sshd — **no SSH key or
+   `authorized_keys` needed on either side**.
 
 ## Credential files (imperative, not in the repo)
 
@@ -125,6 +139,38 @@ LAN clients
 - `Bad handshake` right after a server reboot = tunnel reconnect window; wait.
 - AdGuard dashboard is tunnel-only (no port 3000 in the firewall).
 
+## Forgejo Actions runner (`gimli`)
+
+- Forgejo 15 uses the **UUID + secret connection model**: runners are pre-registered
+  in the Forgejo UI ("Create new runner" dialog → UUID + secret) and connect via
+  `/etc/forgejo-runner/config.yaml`. The deprecated `register --token` flow and the
+  NixOS `services.gitea-actions-runner` module are **incompatible** (the module
+  crash-loops with `registration token not found`). Forgejo 16 uses the same model —
+  upgrading does not fix the module.
+- The runner is a custom `systemd.services.forgejo-runner` (root, uses
+  `pkgs.forgejo-runner`, `Restart = on-failure`), config declared in
+  `nixos/hosts/minas-tirith.nix`.
+- **Imperative config** (root:root `600`, never commit): `/etc/forgejo-runner/config.yaml`
+  with the UUID + secret from the UI:
+  ```yaml
+  server:
+    connections:
+      forgejo:
+        url: https://git.nealwang.dev
+        uuid: <UUID-from-UI>
+        token: <secret-from-UI>
+  runner:
+    labels:
+      - mordor:docker://node:22-alpine
+  ```
+  Workflows run `runs-on: mordor`; runner display name is `gimli`.
+- Deleting a runner in the admin UI orphans its UUID — delete and re-create from the
+  UI, then update `config.yaml` and `systemctl restart forgejo-runner`.
+- **Gotcha — cloudflared `Restart` conflict:** newer nixpkgs sets
+  `Restart = "on-failure"` on the cloudflared tunnel service by default, colliding
+  with the hardening override. Resolved with `Restart = lib.mkForce "always"` in
+  `nixos/hosts/minas-tirith.nix` (keeps "never give up permanently" behavior).
+
 ## Verification
 
 ```sh
@@ -134,6 +180,7 @@ curl -sI https://adguard.nealwang.dev # 200
 ssh minas-tirith hostname # minas-tirith  (direct via WARP Infra Access)
 ssh minas-tirith 'sudo sshd -T | grep -i macs'
 systemctl is-active cloudflared-tunnel-876e057d-dd25-4e7a-89c8-f242719b4a6a.service
+systemctl status forgejo-runner        # runner gimli, label mordor
 ```
 
 ## Client-side SSH: Cloudflare Infrastructure Access via WARP (preferred)
