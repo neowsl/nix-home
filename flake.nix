@@ -18,7 +18,7 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hashword.url = "github:neowsl/hashword";
+    hashword.url = "git+https://git.nealwang.dev/neo/hashword";
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -123,15 +123,15 @@
       "locked": {
         "lastModified": 1765181804,
         "narHash": "sha256-feeaE2xfyhvLxZhaz3nPEZyCC0c2lCblP8BhhDjldZQ=",
-        "owner": "neowsl",
-        "repo": "hashword",
+        "ref": "refs/heads/main",
         "rev": "d2dd0c16ac4c0c7ae375ae037d5269d243f6dcbd",
-        "type": "github"
+        "revCount": 19,
+        "type": "git",
+        "url": "https://git.nealwang.dev/neo/hashword"
       },
       "original": {
-        "owner": "neowsl",
-        "repo": "hashword",
-        "type": "github"
+        "type": "git",
+        "url": "https://git.nealwang.dev/neo/hashword"
       }
     },
     "home-manager": {

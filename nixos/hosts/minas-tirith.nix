@@ -61,6 +61,10 @@
         };
       };
     };
+    cloudflare-warp = {
+      enable = true;
+      openFirewall = true;
+    };
     cloudflared = {
       enable = true;
       tunnels."876e057d-dd25-4e7a-89c8-f242719b4a6a" = {
