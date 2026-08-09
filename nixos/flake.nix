@@ -37,29 +37,14 @@
       }
     )
     // {
-      nixosConfigurations.fynn = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.rivendell = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
         modules = [
-          ./hosts/fynn.nix
+          ./hosts/rivendell.nix
           ./hardware-configuration.nix
+
           lanzaboote.nixosModules.lanzaboote
-
-          (
-            { pkgs, lib, ... }:
-            {
-              environment.systemPackages = with pkgs; [
-                sbctl
-              ];
-
-              boot.loader.systemd-boot.enable = lib.mkForce false;
-
-              boot.lanzaboote = {
-                enable = true;
-                pkiBundle = "/var/lib/sbctl";
-              };
-            }
-          )
         ];
       };
 
@@ -68,6 +53,7 @@
 
         modules = [
           ./hosts/minas-tirith.nix
+          ./hardware-configuration.nix
         ];
       };
     };

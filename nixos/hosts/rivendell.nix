@@ -8,20 +8,43 @@
   system.stateVersion = "26.05";
 
   nixpkgs.config.allowUnfree = true;
+  nix.settings = {
+    auto-optimise-store = true;
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
 
-  nix.settings.auto-optimise-store = true;
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  time.timeZone = "America/Los_Angeles";
+  i18n.defaultLocale = "en_GB.UTF-8";
+
+  console = {
+    font = "Lat2-Terminus16";
+    useXkbConfig = true;
+  };
 
   boot = {
-    lanzaboote.settings.reboot-for-bitlocker = true;
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
+      settings.reboot-for-bitlocker = true;
+    };
     loader = {
       efi.canTouchEfiVariables = true;
       grub.enable = lib.mkForce false;
+      systemd-boot.enable = false;
     };
     kernelParams = [ "nvme_core.default_ps_max_latency_us=0" ];
+  };
+
+  hardware = {
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+    graphics.enable32Bit = true;
+    opentabletdriver.enable = true;
   };
 
   networking = {
@@ -45,13 +68,6 @@
     wireless.enableHardening = false;
   };
 
-  time.timeZone = "America/Los_Angeles";
-
-  console = {
-    font = "Lat2-Terminus16";
-    useXkbConfig = true;
-  };
-
   users = {
     defaultUserShell = pkgs.fish;
     users.neo = {
@@ -64,6 +80,15 @@
       ];
       isNormalUser = true;
     };
+  };
+
+  security = {
+    pam.services = {
+      hyprlock = { };
+      login.enableGnomeKeyring = true;
+    };
+    polkit.enable = true;
+    rtkit.enable = true;
   };
 
   services = {
@@ -177,36 +202,11 @@
     upower.enable = true;
     xserver = {
       enable = true;
-      xkb = {
-        options = "caps:swapescape";
-        # variant = "dvorak";
-      };
+      xkb.options = "caps:swapescape";
     };
   };
 
-  security = {
-    pam.services = {
-      hyprlock = { };
-      # login.kwallet.forceRun = true;
-      login.enableGnomeKeyring = true;
-    };
-    polkit.enable = true;
-    rtkit.enable = true;
-  };
-
-  hardware = {
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-    };
-    graphics.enable32Bit = true;
-    opentabletdriver.enable = true;
-  };
-
-  environment.systemPackages = with pkgs; [
-    git
-    xwayland-satellite
-  ];
+  systemd.user.services.niri.enableDefaultPath = false;
 
   programs = {
     dconf.enable = true;
@@ -214,12 +214,11 @@
     niri.enable = true;
   };
 
-  systemd.user.services.niri.enableDefaultPath = false;
-  # systemd.sleep.extraConfig = ''
-  #   HibernateDelaySec=30m
-  # '';
+  environment.systemPackages = with pkgs; [
+    git
+    sbctl
+    xwayland-satellite
+  ];
 
   gtk.iconCache.enable = true;
-
-  i18n.defaultLocale = "en_GB.UTF-8";
 }

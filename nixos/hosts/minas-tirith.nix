@@ -5,18 +5,23 @@
 }:
 
 {
-  imports = [ ../hardware-configuration.nix ];
-
   system.stateVersion = "26.05";
 
   nixpkgs.config.allowUnfree = true;
-
   nix.settings = {
     auto-optimise-store = true;
     experimental-features = [
       "nix-command"
       "flakes"
     ];
+  };
+
+  time.timeZone = "America/Los_Angeles";
+  i18n.defaultLocale = "en_GB.UTF-8";
+
+  console = {
+    font = "Lat2-Terminus16";
+    useXkbConfig = true;
   };
 
   boot = {
@@ -36,8 +41,6 @@
     firewall.enable = true;
     networkmanager.enable = true;
   };
-
-  i18n.defaultLocale = "en_GB.UTF-8";
 
   users = {
     defaultUserShell = pkgs.fish;
@@ -103,8 +106,12 @@
     };
     xserver = {
       enable = true;
-      displayManager.startx.enable = true;
-      windowManager.icewm.enable = true;
+      desktopManager.cinnamon.enable = true;
+      displayManager = {
+        lightdm.enable = true;
+        defaultSession = "cinnamon";
+      };
+      xkb.options = "caps:swapescape";
     };
   };
 
@@ -137,11 +144,6 @@
         WorkingDirectory = "/var/lib/forgejo-runner";
       };
     };
-  };
-
-  hardware = {
-    enableAllFirmware = true;
-    graphics.enable = true;
   };
 
   virtualisation = {
