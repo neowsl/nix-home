@@ -20,10 +20,12 @@ laptops (rivendell, osgiliath) — Cloudflare Mesh clients (WARP)
 minas-tirith (server, 192.168.1.12, WiFi wlp0s20f0u4, NixOS) — Mesh node (Mesh IP 100.96.0.3)
    ├── sshd :22            (hardened, TrustedUserCAKeys = Cloudflare CA)
    ├── cloudflare-warp     (headless Mesh node, Traffic+DNS mode, owns :53)
-   ├── cloudflared tunnel  876e057d-dd25-4e7a-89c8-f242719b4a6a
-   │     git.nealwang.dev      → http://localhost:3001
-   │     maelstrom.nealwang.dev → http://localhost:4000
-   └── icewm via startx             (TV mode, no display manager)
+├── cloudflared tunnel  876e057d-dd25-4e7a-89c8-f242719b4a6a
+    │     git.nealwang.dev      → http://localhost:3001
+    │     photos.nealwang.dev   → http://localhost:2283  (Immich)
+    │     maelstrom.nealwang.dev → http://localhost:4000
+    │   (routing for this tunnel is dashboard-managed, see Gotchas)
+    └── icewm via startx             (TV mode, no display manager)
 ```
 
 ## Key identifiers
@@ -42,13 +44,16 @@ minas-tirith (server, 192.168.1.12, WiFi wlp0s20f0u4, NixOS) — Mesh node (Mesh
 
 ## Cloudflare dashboard actions (manual, one-time)
 
-1. **DNS records** (zone `nealwang.dev`) — two CNAMEs to the tunnel target:
+1. **DNS records** (zone `nealwang.dev`) — CNAMEs to the tunnel target:
    - `minas-tirith.nealwang.dev` → `876e057d-....cfargotunnel.com` (proxied)
    - `adguard.nealwang.dev`      → `876e057d-....cfargotunnel.com` (proxied)
+   - `photos.nealwang.dev`       → `876e057d-....cfargotunnel.com` (proxied, Immich)
    - Use **single-level** hostnames only: Universal SSL covers `*.nealwang.dev`
      (one level). `adguard.minas-tirith.nealwang.dev` fails TLS for this reason.
-2. **Tunnel** — locally-managed (NOT the dashboard wizard). Created from a machine
-   that holds the account cert (`cloudflared tunnel login` → `~/.cloudflared/cert.pem`).
+2. **Tunnel** — tunnel itself created from a machine holding the account cert
+   (`cloudflared tunnel login` → `~/.cloudflared/cert.pem`), but **routing is
+   dashboard-managed** (see Gotchas): add public hostnames under the tunnel's
+   **Routes / Public Hostnames**, not DNS Records.
 3. **Zero Trust → Settings → Service credentials → SSH**: created the account-level
    SSH CA. Public key (copied to server):
    ```
@@ -138,6 +143,21 @@ minas-tirith (server, 192.168.1.12, WiFi wlp0s20f0u4, NixOS) — Mesh node (Mesh
 - `1033` from the tunnel = hostname not bound to a tunnel (missing/mistyped CNAME).
 - `Bad handshake` right after a server reboot = tunnel reconnect window; wait.
 - AdGuard dashboard is tunnel-only (no port 3000 in the firewall).
+- **⚠️ IMPORTANT — add tunnel routes via the tunnel's Routes, NOT DNS Records.** To
+  expose a hostname through the tunnel, add it under
+  **Zero Trust → Networks → Tunnels → `<tunnel>` (876e057d-...) → Public Hostnames /
+  Routes** with the origin service (e.g. `photos.nealwang.dev` → `http://localhost:2283`).
+  A proxied **DNS CNAME alone does NOT expose it** — if the hostname isn't in the
+  tunnel's route config, cloudflared falls through to the tunnel's `default` and
+  answers `http_status:404`. This tunnel's routing is **dashboard-managed**: the Cloudflare
+  control plane pushes the effective ingress (`... Updated to new configuration version=N`)
+  that overrides the local `services.cloudflared.tunnels."<uuid>".ingress` in
+  `nixos/hosts/minas-tirith.nix`. So the repo's `ingress` block is documented-but-not-
+  authoritative; change routing in the dashboard. Diagnose a missing route with:
+  ```sh
+  journalctl -u cloudflared-tunnel-876e057d-dd25-4e7a-89c8-f242719b4a6a | grep "Updated to new configuration"
+  ```
+  The pushed ingress is what cloudflared actually serves.
 
 ## Forgejo Actions runner (`gimli`)
 
@@ -171,16 +191,45 @@ minas-tirith (server, 192.168.1.12, WiFi wlp0s20f0u4, NixOS) — Mesh node (Mesh
   with the hardening override. Resolved with `Restart = lib.mkForce "always"` in
   `nixos/hosts/minas-tirith.nix` (keeps "never give up permanently" behavior).
 
+## Immich (`photos.nealwang.dev`)
+
+Self-hosted photo/video manager, exposed publicly via the tunnel. Managed by the
+nixpkgs **`services.immich`** NixOS module — **no docker containers**. Server and
+machine-learning run as plain systemd services from the `immich` package
+(release-pinned, upgraded via `nixos-rebuild`), declared in
+`nixos/hosts/minas-tirith.nix`.
+
+- **Postgres:** uses the system `services.postgresql` cluster over the unix socket
+  (`/run/postgresql`), creating a dedicated `immich` database. Shares the cluster
+  with Forgejo (`:5432`) — separate databases. **VectorChord** (the vector-search
+  extension) is enabled automatically.
+- **Redis:** managed as `services.redis.servers.immich` (a systemd redis instance).
+- **Data:** photos/media live under the configured `mediaLocation` (default
+  `/var/lib/immich`); ML model cache likewise.
+- The server binds `127.0.0.1:2283` (module default port), reached via the tunnel;
+  firewall untouched.
+
+**First-run:** `http://localhost:2283` (or `https://photos.nealwang.dev`) → the admin
+sign-up screen appears once; set the app URL to `https://photos.nealwang.dev`.
+First ML model download + photo processing is RAM/CPU-heavy.
+
+- **Optional hardening:** `photos.nealwang.dev` is public (auth'd by Immich). To put
+  Cloudflare Access in front of the photos, add a self-hosted Access app + policy for
+  `photos.nealwang.dev` (same flow as the SSH app above). TODO.
+
 ## Verification
 
 ```sh
 dig doubleclick.net @192.168.1.1      # 0.0.0.0  (router forwards to AdGuard)
 dig +short adguard.nealwang.dev       # Cloudflare edge IPs
 curl -sI https://adguard.nealwang.dev # 200
+curl -sI https://photos.nealwang.dev  # 200  (Immich)
 ssh minas-tirith hostname # minas-tirith  (direct via WARP Infra Access)
 ssh minas-tirith 'sudo sshd -T | grep -i macs'
 systemctl is-active cloudflared-tunnel-876e057d-dd25-4e7a-89c8-f242719b4a6a.service
 systemctl status forgejo-runner        # runner gimli, label mordor
+systemctl status immich-server         # Immich server (services.immich)
+systemctl is-active immich-machine-learning immich-postgres immich-redis
 ```
 
 ## Client-side SSH: Cloudflare Infrastructure Access via WARP (preferred)
@@ -261,17 +310,8 @@ remove the stale entry and reconnect: `ssh-keygen -R 192.168.1.12`.
 - Laptop keypair `~/.ssh/id_ed25519` (key exists; pubkey is authorized for `neo`).
 - `attu` in the ssh config is the UW CSE box — unrelated to the homelab.
 
-## Known repo gap
+## Known repo gap (resolved)
 
-The deployed server currently runs the `Macs` fix (see Gotchas), but
-`nixos/hosts/minas-tirith.nix` does **not** declare it yet. Add to
-`services.openssh.settings` and rebuild to make the repo reproduce the server:
-```nix
-Macs = [
-  "hmac-sha2-512-etm@openssh.com"
-  "hmac-sha2-256-etm@openssh.com"
-  "umac-128-etm@openssh.com"
-  "hmac-sha2-512"
-  "hmac-sha2-256"
-];
-```
+The `Macs` fix described in Gotchas is now declared in
+`nixos/hosts/minas-tirith.nix` under `services.openssh.settings`, so the repo
+reproduces the deployed server correctly.

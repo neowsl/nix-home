@@ -16,6 +16,11 @@
     ];
   };
 
+  catppuccin = {
+    enable = true;
+    accent = "lavender";
+  };
+
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_GB.UTF-8";
 
@@ -66,10 +71,13 @@
         default = "http_status:404";
         ingress = {
           "git.nealwang.dev" = "http://localhost:3001";
+          "photos.nealwang.dev" = "http://localhost:2283";
+
           "maelstrom.nealwang.dev" = "http://localhost:4000";
         };
       };
     };
+    displayManager.defaultSession = "cinnamon";
     forgejo = {
       enable = true;
       database.type = "postgres";
@@ -87,6 +95,12 @@
       };
     };
     fstrim.enable = true;
+    immich = {
+      enable = true;
+      port = 2283;
+      host = "0.0.0.0";
+      openFirewall = true;
+    };
     openssh = {
       enable = true;
       settings = {
@@ -107,10 +121,7 @@
     xserver = {
       enable = true;
       desktopManager.cinnamon.enable = true;
-      displayManager = {
-        lightdm.enable = true;
-        defaultSession = "cinnamon";
-      };
+      displayManager.lightdm.enable = true;
       xkb.options = "caps:swapescape";
     };
   };

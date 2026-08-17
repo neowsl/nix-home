@@ -2,6 +2,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
+    flake-utils.url = "github:numtide/flake-utils";
+
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs = {
@@ -14,14 +16,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
+    catppuccin.url = "github:catppuccin/nix/release-26.05";
   };
 
   outputs =
     {
       nixpkgs,
-      lanzaboote,
       flake-utils,
+      lanzaboote,
+      catppuccin,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -54,6 +57,8 @@
         modules = [
           ./hosts/minas-tirith.nix
           ./hardware-configuration.nix
+
+          catppuccin.nixosModules.catppuccin
         ];
       };
     };
