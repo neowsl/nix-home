@@ -10,6 +10,7 @@ with pkgs;
   gnumake
   just
   lazygit
+  libqalculate
   opencode
   sccache
   tree-sitter

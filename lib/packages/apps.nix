@@ -16,7 +16,6 @@ with pkgs;
   kdePackages.kdenlive
   krita
   pkgs-unstable.legcord
-  libqalculate
   libreoffice-qt
   libresprite
   musescore
