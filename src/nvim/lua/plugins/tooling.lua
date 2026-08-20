@@ -23,7 +23,7 @@ return {
 				mdx = { "biome-check" },
 				nix = { "nixfmt" },
 				odin = { "odinfmt" },
-				python = { "isort", "black" },
+				python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
 				rust = { "rustfmt" },
 				scss = { "biome-check" },
 				svelte = { "biome-check" },

@@ -7,7 +7,6 @@ with pkgs;
   astro-language-server
   bash-language-server
   biome
-  black
   pkgs-unstable.bun
   clang-tools
   cling
@@ -30,7 +29,6 @@ with pkgs;
   haskellPackages.haskell-language-server
   haskellPackages.hlint
   haskellPackages.ormolu
-  isort
   jdk25
   jdt-language-server
   lua
@@ -45,6 +43,7 @@ with pkgs;
   pkgs-unstable.pyrefly
   python3
   python312Packages.pip
+  ruff
   rustup
   stylua
   stylish-haskell
