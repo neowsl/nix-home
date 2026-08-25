@@ -24,6 +24,7 @@ with pkgs;
   golangci-lint
   google-java-format
   gopls
+  gotools
   haskell.compiler.ghc9103
   haskellPackages.cabal-gild
   haskellPackages.cabal-install

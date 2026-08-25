@@ -9,7 +9,7 @@ return {
 				css = { "biome-check" },
 				elixir = { "mix" },
 				gdscript = { "gdformat" },
-				go = { "gofmt" },
+				go = { "goimports" },
 				haskell = { "ormolu" },
 				heex = { "mix" },
 				html = { "biome-check" },
