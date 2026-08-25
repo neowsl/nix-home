@@ -18,6 +18,8 @@ with pkgs;
   gdb
   gdtoolkit_4
   # pkgs-unstable.gleam
+  # go
+  pkgs-unstable.go_1_27
   go
   golangci-lint
   google-java-format
