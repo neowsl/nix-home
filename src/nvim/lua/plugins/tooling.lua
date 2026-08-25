@@ -61,10 +61,12 @@ return {
 
 			lint.linters_by_ft = {
 				astro = { "biomejs" },
+				go = { "golangcilint" },
 				haskell = { "hlint" },
 				javascript = { "biomejs" },
 				svelte = { "biomejs" },
 				typescript = { "biomejs" },
+				zig = { "zlint" },
 			}
 
 			vim.api.nvim_create_autocmd({ "BufWritePost" }, {

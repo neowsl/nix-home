@@ -20,8 +20,7 @@ with pkgs;
   # pkgs-unstable.gleam
   # go
   pkgs-unstable.go_1_27
-  go
-  golangci-lint
+  pkgs-unstable.golangci-lint
   google-java-format
   gopls
   gotools
@@ -59,5 +58,6 @@ with pkgs;
   vscode-langservers-extracted
   yaml-language-server
   zig
+  zig-zlint
   zls
 ]
