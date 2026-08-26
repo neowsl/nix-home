@@ -11,7 +11,7 @@ with pkgs;
   just
   lazygit
   libqalculate
-  opencode
+  pkgs-unstable.opencode
   sccache
   tree-sitter
   uv

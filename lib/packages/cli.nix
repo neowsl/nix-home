@@ -7,6 +7,7 @@ with pkgs;
   # busybox
   # cava
   eza
+  newsboat
   nix-output-monitor
   nmap
   openssl
