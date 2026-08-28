@@ -41,6 +41,11 @@ window-rule {
     clip-to-geometry true
 }
 
+layer-rule {
+    match namespace="^quickshell$"
+    place-within-backdrop true
+}
+
 window-rule {
     match app-id="float"
     match app-id="qalculate-gtk"
@@ -139,4 +144,8 @@ binds {
     Mod+Q { quit; }
 }
 
+include "dms/colors.kdl"
+include "dms/layout.kdl"
+include "dms/alttab.kdl"
+include "dms/binds.kdl"
 include "dms/outputs.kdl"
