@@ -68,7 +68,7 @@ binds {
     Mod+Tab    { spawn "kitty" "--class" "float" "hashword"; }
     Mod+Equal  { spawn "qalculate-gtk"; }
 
-    Mod+P         { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+    Mod+P         { spawn "dms" "ipc" "call" "spotlight-bar" "toggle"; }
     Mod+Backspace { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }

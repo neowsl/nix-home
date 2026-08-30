@@ -38,6 +38,7 @@ return {
 				"typescript",
 				"typst",
 				"yaml",
+				"zig",
 			}
 
 			vim.api.nvim_create_autocmd("FileType", {
