@@ -61,7 +61,7 @@ binds {
 
     Mod+C      { close-window; }
     Mod+Return { spawn "ghostty"; }
-    Mod+E      { spawn "emacsclient" "-c"; }
+    Mod+E      { spawn "emacsclient" "-c" "-a" ""; }
     Mod+B      { spawn "zen"; }
     Mod+T      { spawn "thunar"; }
     Mod+O      { spawn "obsidian"; }

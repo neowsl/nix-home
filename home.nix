@@ -39,7 +39,15 @@ in
           "niri"
         ];
         configDirs = builtins.filter (
-          name: srcContents.${name} == "directory" && !(builtins.elem name ([ ".ghc" ] ++ guiDirs))
+          name:
+          srcContents.${name} == "directory"
+          && !(builtins.elem name (
+            [
+              ".ghc"
+              "doom"
+            ]
+            ++ guiDirs
+          ))
         ) (builtins.attrNames srcContents);
 
         mkConfig = name: {
@@ -73,7 +81,7 @@ in
       BAT_THEME = "Catppuccin Mocha";
       BIOME_BINARY = "${pkgs.biome}/bin/biome";
       DOOMDIR = "${config.home.homeDirectory}/.config/home-manager/src/doom";
-      EDITOR = "nvim";
+      # EDITOR = "nvim";
       PF_INFO = "ascii title os uptime pkgs wm shell editor";
     };
     shellAliases = {
@@ -93,6 +101,10 @@ in
     direnv = {
       enable = true;
       nix-direnv.enable = true;
+    };
+    emacs = {
+      enable = true;
+      package = pkgs.emacs-pgtk;
     };
     fish = {
       enable = true;
@@ -151,6 +163,16 @@ in
       enable = true;
       options = [ "--cmd cd" ];
     };
+  };
+
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs-pgtk;
+    client.enable = true;
+    defaultEditor = true;
+    socketActivation.enable = false;
+    startWithUserSession = "graphical";
+    extraOptions = [ "--init-directory=${config.home.homeDirectory}/.config/emacs" ];
   };
 
   fonts.fontconfig.enable = true;

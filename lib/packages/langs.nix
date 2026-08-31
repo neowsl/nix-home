@@ -43,8 +43,7 @@ with pkgs;
   prettier
   prettierd
   pkgs-unstable.pyrefly
-  python3
-  python312Packages.pip
+  python313Packages.pip
   ruff
   rustup
   stylua
