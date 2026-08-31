@@ -46,6 +46,8 @@
         :i "C-p" #'acm-select-prev
         :i "C-k" #'acm-complete))
 
+(setq lsp-bridge-python-lsp-server "ty")
+
 (use-package! apheleia
   :defer t
   :init
@@ -53,6 +55,8 @@
   :config
   (setf (alist-get 'biome apheleia-formatters)
         '("biome" "format" "--stdin-file-path" filepath))
+  (setf (alist-get 'ruff apheleia-formatters)
+        '("ruff" "format" "--stdin-filename" filepath "-"))
 
   (dolist (entry '((css-mode . biome)
                    (css-ts-mode . biome)
@@ -67,6 +71,8 @@
                    (tsx-ts-mode . biome)))
     (setf (alist-get (car entry) apheleia-mode-alist)
           (cdr entry)))
+  (setf (alist-get 'python-mode apheleia-mode-alist)
+        '(ruff))
 
   (apheleia-global-mode +1))
 
@@ -112,3 +118,5 @@
   (map! :map typst-preview-mode-map
         :localleader
         "s" #'typst-preview-send-position))
+
+(setq rmh-elfeed-org-files (list (expand-file-name "elfeed.org" org-directory)))

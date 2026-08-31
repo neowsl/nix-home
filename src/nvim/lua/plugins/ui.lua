@@ -30,6 +30,16 @@ return {
 		end,
 	},
 	{
+		"nvim-mini/mini.icons",
+		version = "*",
+		config = function()
+			local mini_icons = require "mini.icons"
+			mini_icons.setup {}
+
+			mini_icons.mock_nvim_web_devicons()
+		end,
+	},
+	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = {
 			"catppuccin/nvim",
@@ -74,21 +84,9 @@ return {
 		},
 	},
 	{
-		"DaikyXendo/nvim-material-icon",
-		opts = {
-			override_by_extension = {
-				["gleam"] = {
-					icon = "",
-					color = "#ffaff3",
-					name = "Gleam",
-				},
-			},
-		},
-	},
-	{
 		"gelguy/wilder.nvim",
 		dependencies = {
-			"DaikyXendo/nvim-material-icon",
+			"nvim-mini/mini.icons",
 		},
 		opts = {
 			modes = { ":", "/", "?" },

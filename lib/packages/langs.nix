@@ -42,7 +42,6 @@ with pkgs;
   ols
   prettier
   prettierd
-  pkgs-unstable.pyrefly
   python313Packages.pip
   ruff
   rustup
@@ -51,6 +50,7 @@ with pkgs;
   svelte-language-server
   tailwindcss-language-server
   tinymist
+  pkgs-unstable.ty
   typescript-language-server
   typst
   typstyle
