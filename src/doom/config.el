@@ -27,26 +27,24 @@
 
 (add-to-list 'default-frame-alist '(alpha-background . 95))
 
-(dolist (mode-hook '(typescript-mode-hook
-                     typescript-ts-mode-hook
-                     tsx-ts-mode-hook
-                     js-mode-hook
-                     js-ts-mode-hook
-                     rjsx-mode-hook))
-  (add-hook mode-hook #'lsp-deferred))
-(setq lsp-tailwindcss-add-on-mode t)
-(after! lsp-mode
-  (setq lsp-tailwindcss-server-path
-        (executable-find "tailwindcss-language-server"))
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("pyrefly" "lsp"))
-                    :major-modes '(python-mode python-ts-mode)
-                    :priority -1
-                    :server-id 'pyrefly-ls)))
-
 (use-package! lsp-bridge
   :config
-  (global-lsp-bridge-mode))
+  (global-lsp-bridge-mode)
+
+  (setq lsp-bridge-nix-lsp-server "nil")
+
+  (map! :map lsp-bridge-mode-map
+        :n "K" #'lsp-bridge-popup-documentation
+
+        :leader
+        :desc "Code actions" "c a" #'lsp-bridge-code-action
+        :desc "Rename symbol" "c r" #'lsp-bridge-rename))
+
+(after! acm
+  (map! :map acm-mode-map
+        :i "C-n" #'acm-select-next
+        :i "C-p" #'acm-select-prev
+        :i "C-k" #'acm-complete))
 
 (use-package! apheleia
   :defer t
