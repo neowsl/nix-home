@@ -27,6 +27,10 @@
 
 (add-to-list 'default-frame-alist '(alpha-background . 95))
 
+(use-package! evil-ghostel
+  :after (ghostel evil)
+  :hook (ghostel-mode . evil-ghostel-mode))
+
 (setq treesit-auto-install-grammar 'ask
       treesit-enabled-modes t)
 
@@ -61,21 +65,17 @@
   (setf (alist-get 'ruff apheleia-formatters)
         '("ruff" "format" "--stdin-filename" filepath "-"))
 
-  (dolist (entry '((css-mode . biome)
+  (dolist (entry '((astro-ts-mode . biome)
                    (css-ts-mode . biome)
-                   (js-json-mode . biome)
-                   (js-mode . biome)
                    (js-ts-mode . biome)
-                   (json-mode . biome)
                    (json-ts-mode . biome)
+                   (json-ts-mode . biome)
+                   (python-mode . ruff)
                    (rjsx-mode . biome)
-                   (typescript-mode . biome)
                    (typescript-ts-mode . biome)
                    (tsx-ts-mode . biome)))
     (setf (alist-get (car entry) apheleia-mode-alist)
           (cdr entry)))
-  (setf (alist-get 'python-mode apheleia-mode-alist)
-        '(ruff))
 
   (apheleia-global-mode +1))
 

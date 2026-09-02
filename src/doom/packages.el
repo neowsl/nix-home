@@ -1,7 +1,8 @@
-(package! ghostel)
-
 (package! catppuccin-theme)
 (package! rainbow-delimiters)
+
+(package! ghostel)
+(package! evil-ghostel)
 
 (package! lsp-bridge
   :recipe (:host github
