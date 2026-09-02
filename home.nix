@@ -104,7 +104,7 @@ in
     };
     emacs = {
       enable = true;
-      package = pkgs.emacs-pgtk;
+      package = pkgs-unstable.emacs-pgtk;
     };
     fish = {
       enable = true;
@@ -167,7 +167,7 @@ in
 
   services.emacs = {
     enable = true;
-    package = pkgs.emacs-pgtk;
+    package = pkgs-unstable.emacs-pgtk;
     client.enable = true;
     defaultEditor = true;
     socketActivation.enable = false;

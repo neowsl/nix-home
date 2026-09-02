@@ -27,6 +27,9 @@
 
 (add-to-list 'default-frame-alist '(alpha-background . 95))
 
+(setq treesit-auto-install-grammar 'ask
+      treesit-enabled-modes t)
+
 (use-package! lsp-bridge
   :config
   (global-lsp-bridge-mode)
@@ -94,6 +97,9 @@
   (setq leetcode-prefer-language "python3"
         leetcode-save-solutions t
         leetcode-directory "~/dev/leetcode/solutions"))
+
+(use-package! astro-ts-mode
+  :mode "\\.astro\\'")
 
 (use-package! typst-ts-mode
   :mode "\\.typ\\'"
