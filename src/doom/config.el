@@ -49,9 +49,12 @@
 
 (after! acm
   (map! :map acm-mode-map
-        :i "C-n" #'acm-select-next
-        :i "C-p" #'acm-select-prev
-        :i "C-k" #'acm-complete))
+        "RET" nil
+
+        :i
+        "C-n" #'acm-select-next
+        "C-p" #'acm-select-prev
+        "C-k" #'acm-complete))
 
 (setq lsp-bridge-python-lsp-server "ty")
 
