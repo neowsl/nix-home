@@ -10,9 +10,6 @@
            :branch "master"
            :files ("*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
            :build (:not compile)))
-(package! yasnippet)
-
-(package! markdown-mode)
 
 (package! astro-ts-mode
   :recipe (:build (:not autoloads)))

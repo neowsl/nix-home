@@ -31,14 +31,14 @@
   :after (ghostel evil)
   :hook (ghostel-mode . evil-ghostel-mode))
 
-(setq treesit-auto-install-grammar 'ask
-      treesit-enabled-modes t)
-
 (use-package! lsp-bridge
   :config
-  (global-lsp-bridge-mode)
+  (setq lsp-bridge-nix-lsp-server "nil"
+        lsp-bridge-python-multi-lsp-server "ty_ruff")
 
-  (setq lsp-bridge-nix-lsp-server "nil")
+  (add-to-list 'lsp-bridge-default-mode-hooks 'zig-ts-mode-hook)
+
+  (global-lsp-bridge-mode)
 
   (map! :map lsp-bridge-mode-map
         :n "K" #'lsp-bridge-popup-documentation
@@ -56,42 +56,24 @@
         "C-p" #'acm-select-prev
         "C-k" #'acm-complete))
 
-(setq lsp-bridge-python-lsp-server "ty")
-
 (use-package! apheleia
   :defer t
   :init
   (setq apheleia-log-only-errors t)
   :config
-  (setf (alist-get 'biome apheleia-formatters)
-        '("biome" "format" "--stdin-file-path" filepath))
-  (setf (alist-get 'ruff apheleia-formatters)
-        '("ruff" "format" "--stdin-filename" filepath "-"))
-
   (dolist (entry '((astro-ts-mode . biome)
                    (css-ts-mode . biome)
                    (js-ts-mode . biome)
                    (json-ts-mode . biome)
-                   (json-ts-mode . biome)
-                   (python-mode . ruff)
+                   (python-ts-mode . ruff)
                    (rjsx-mode . biome)
-                   (typescript-ts-mode . biome)
-                   (tsx-ts-mode . biome)))
+                   (tsx-ts-mode . biome)
+                   (typescript-ts-mode . biome)))
     (setf (alist-get (car entry) apheleia-mode-alist)
-          (cdr entry)))
-
-  (apheleia-global-mode +1))
+          (cdr entry))))
 
 (after! flycheck
-  (flycheck-define-checker biome
-    "A JavaScript/TypeScript linter and formatter using Biome."
-    :command ("biome" "check" "--formatter-enabled=false" "--stdin-file-path" source)
-    :standard-input t
-    :error-patterns
-    ((error line-start (file-name) ":" line ":" column " " (message) line-end))
-    :modes (js2-mode rjsx-mode tsx-ts-mode typescript-mode typescript-ts-mode))
-
-  (add-to-list 'flycheck-checkers 'biome))
+  (global-flycheck-lsp-mode 1))
 
 (setq projectile-project-search-path '(("~/dev" . 2)))
 
@@ -111,9 +93,9 @@
 
   (map! :map typst-ts-mode-map
         :localleader
-        "p" #'typst-preview-mode
-        "c" #'typst-ts-compile
-        "w" #'typst-ts-watch-mode))
+        :desc "Typst preview" "p" #'typst-preview-mode
+        :desc "Typst compile" "c" #'typst-ts-compile
+        :desc "Typst watch" "w" #'typst-ts-watch-mode))
 
 (use-package! typst-preview
   :after typst-ts-mode
@@ -126,6 +108,6 @@
 
   (map! :map typst-preview-mode-map
         :localleader
-        "s" #'typst-preview-send-position))
+        :desc "Typst preview send position" "s" #'typst-preview-send-position))
 
 (setq rmh-elfeed-org-files (list (expand-file-name "elfeed.org" org-directory)))
