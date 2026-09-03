@@ -5,19 +5,22 @@
 
 (setq display-line-numbers-type t)
 
-(defun my/evil-toggle-relative-lines ()
-  "Toggle between relative and absolute line numbers based on Evil state."
-  (setq display-line-numbers-type
-        (if (memq evil-state '(normal visual motion))
-            'relative
-          t))
-  (display-line-numbers-mode 1))
+(defun my/evil-update-line-numbers-h ()
+  "Use relative line numbers in Evil navigation states."
+  (when display-line-numbers-mode
+    (setq-local display-line-numbers
+                (if (memq evil-state '(normal visual motion))
+                    'relative
+                  t))))
 
-(add-hook! '(evil-normal-state-entry-hook
+(add-hook! '(display-line-numbers-mode-hook
+             evil-normal-state-entry-hook
              evil-visual-state-entry-hook
+             evil-motion-state-entry-hook
              evil-insert-state-entry-hook
-             evil-motion-state-entry-hook)
-           #'my/evil-toggle-relative-lines)
+             evil-replace-state-entry-hook
+             evil-emacs-state-entry-hook)
+           #'my/evil-update-line-numbers-h)
 
 (setq-default fill-column 80)
 (add-hook! 'prog-mode-hook #'display-fill-column-indicator-mode)
@@ -31,6 +34,15 @@
   :after (ghostel evil)
   :hook (ghostel-mode . evil-ghostel-mode))
 
+(defun my/lookup-documentation ()
+  "Use native Elisp documentation and LSP hover elsewhere."
+  (interactive)
+  (call-interactively
+   (if (derived-mode-p 'emacs-lisp-mode
+                       'lisp-interaction-mode)
+       #'+lookup/documentation
+     #'lsp-bridge-popup-documentation)))
+
 (use-package! lsp-bridge
   :config
   (setq lsp-bridge-nix-lsp-server "nil"
@@ -41,20 +53,19 @@
   (global-lsp-bridge-mode)
 
   (map! :map lsp-bridge-mode-map
-        :n "K" #'lsp-bridge-popup-documentation
+        :n "K" #'my/lookup-documentation
 
         :leader
         :desc "Code actions" "c a" #'lsp-bridge-code-action
         :desc "Rename symbol" "c r" #'lsp-bridge-rename))
 
-(after! acm
-  (map! :map acm-mode-map
-        "RET" nil
+(map! :after acm
+      :map acm-mode-map
+      "RET" nil
 
-        :i
-        "C-n" #'acm-select-next
-        "C-p" #'acm-select-prev
-        "C-k" #'acm-complete))
+      :i "C-n" #'acm-select-next
+      :i "C-p" #'acm-select-prev
+      :i "C-k" #'acm-complete)
 
 (use-package! apheleia
   :defer t
