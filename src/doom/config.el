@@ -30,6 +30,10 @@
 
 (add-to-list 'default-frame-alist '(alpha-background . 95))
 
+(use-package! ghostel-compile
+  :config
+  (ghostel-compile-global-mode 1))
+
 (use-package! evil-ghostel
   :after (ghostel evil)
   :hook (ghostel-mode . evil-ghostel-mode))
