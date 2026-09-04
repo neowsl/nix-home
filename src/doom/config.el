@@ -45,7 +45,11 @@
 
 (use-package! lsp-bridge
   :config
-  (setq lsp-bridge-nix-lsp-server "nil"
+  (setq lsp-bridge-signature-show-function #'lsp-bridge-signature-show-with-frame
+        lsp-bridge-signature-show-with-frame-position "point"
+        lsp-bridge-signature-help-fetch-idle 0.0
+
+        lsp-bridge-nix-lsp-server "nil"
         lsp-bridge-python-multi-lsp-server "ty_ruff")
 
   (add-to-list 'lsp-bridge-default-mode-hooks 'zig-ts-mode-hook)
