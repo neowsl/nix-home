@@ -129,4 +129,10 @@
         :localleader
         :desc "Typst preview send position" "s" #'typst-preview-send-position))
 
-(setq rmh-elfeed-org-files (list (expand-file-name "elfeed.org" org-directory)))
+(setq elfeed-use-curl t
+      elfeed-feeds '(("fever+https://neo@rss.nealwang.dev"
+                      :use-authinfo t
+                      :api-url "https://rss.nealwang.dev/fever/")))
+
+(after! elfeed
+  (elfeed-protocol-enable))

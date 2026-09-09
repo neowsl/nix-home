@@ -16,6 +16,8 @@
 (package! typst-ts-mode
   :recipe (:host codeberg :repo "meow_king/typst-ts-mode"))
 
+(package! elfeed-protocol)
+
 (package! leetcode)
 (package! typst-preview
   :recipe (:host github :repo "havarddj/typst-preview.el"))
