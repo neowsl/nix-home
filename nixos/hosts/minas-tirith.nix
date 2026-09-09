@@ -71,6 +71,7 @@
         default = "http_status:404";
         ingress = {
           "git.nealwang.dev" = "http://localhost:3001";
+          "rss.nealwang.dev" = "http://localhost:3002";
           "photos.nealwang.dev" = "http://localhost:2283";
         };
       };
@@ -98,6 +99,17 @@
       port = 2283;
       host = "0.0.0.0";
       openFirewall = true;
+    };
+    miniflux = {
+      enable = true;
+      createDatabaseLocally = true;
+      adminCredentialsFile = "/etc/miniflux/admin.env";
+      config = {
+        BASE_URL = "https://rss.nealwang.dev";
+        FEVER = 1;
+        LISTEN_ADDR = "127.0.0.1:3002";
+        POLLING_FREQUENCY = 60;
+      };
     };
     openssh = {
       enable = true;
