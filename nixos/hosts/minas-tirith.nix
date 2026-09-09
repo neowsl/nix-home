@@ -74,6 +74,9 @@
           "photos.nealwang.dev" = "http://localhost:2283";
 
           "maelstrom.nealwang.dev" = "http://localhost:4000";
+          "docs.maelstrom.nealwang.dev" = "http://localhost:4001";
+
+          "docs.mithril.nealwang.dev" = "http://localhost:4011";
         };
       };
     };
