@@ -22,6 +22,10 @@
              evil-emacs-state-entry-hook)
            #'my/evil-update-line-numbers-h)
 
+(after! evil
+  (map! :nvm "j" #'evil-next-visual-line
+        :nvm "k" #'evil-previous-visual-line))
+
 (setq-default fill-column 80)
 (add-hook! 'prog-mode-hook #'display-fill-column-indicator-mode)
 (add-hook! 'prog-mode-hook #'rainbow-delimiters-mode)
